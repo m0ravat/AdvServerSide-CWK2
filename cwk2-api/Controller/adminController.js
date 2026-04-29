@@ -47,26 +47,21 @@ exports.seedDatabase = async (req, res) => {
         // Create profile if alumni
         if (accountData.isAlumni && profileData) {
           try {
-            // Remove _id from nested arrays as Mongoose will generate them
-            const cleanProfileData = { ...profileData };
+            // Deep clone and clean all _id fields from nested arrays
+            const cleanProfileData = JSON.parse(JSON.stringify(profileData));
             
-            if (cleanProfileData.degrees) {
-              cleanProfileData.degrees = cleanProfileData.degrees.map(({ _id, ...rest }) => rest);
-            }
-            if (cleanProfileData.certifications) {
-              cleanProfileData.certifications = cleanProfileData.certifications.map(({ _id, ...rest }) => rest);
-            }
-            if (cleanProfileData.licenses) {
-              cleanProfileData.licenses = cleanProfileData.licenses.map(({ _id, ...rest }) => rest);
-            }
-            if (cleanProfileData.courses) {
-              cleanProfileData.courses = cleanProfileData.courses.map(({ _id, ...rest }) => rest);
-            }
-            if (cleanProfileData.employmentHistory) {
-              cleanProfileData.employmentHistory = cleanProfileData.employmentHistory.map(({ _id, ...rest }) => rest);
-            }
+            const arraysToClean = ['degrees', 'certifications', 'licenses', 'courses', 'employmentHistory'];
+            
+            arraysToClean.forEach(arrayName => {
+              if (Array.isArray(cleanProfileData[arrayName])) {
+                cleanProfileData[arrayName] = cleanProfileData[arrayName].map(item => {
+                  const { _id, ...cleanItem } = item;
+                  return cleanItem;
+                });
+              }
+            });
 
-            console.log(`[ADMIN] Creating profile for ${accountData.fullname} with account ID: ${account._id}`);
+            console.log(`[ADMIN] Creating profile for ${accountData.fullname}`);
             const profile = await Profile.create({
               ...cleanProfileData,
               account: account._id,
