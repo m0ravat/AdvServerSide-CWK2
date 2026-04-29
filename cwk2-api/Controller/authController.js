@@ -3,6 +3,7 @@ const Account = require('../Models/accountModel');
 /**
  * GET /account/signup
  * Render signup form
+ * Note: redirectIfAuthenticated middleware handles logged-in users
  */
 exports.signupPage = (req, res) => {
   res.render('signup', { error: null, user: null });
@@ -36,18 +37,27 @@ exports.signup = async (req, res) => {
       isAlumni: alumniStatus
     });
 
-    // Store session and permissions
+    // Store session info
     req.session.userId = user._id;
     req.session.isAlumni = user.isAlumni;
+    req.session.fullname = user.fullname;
     
     // Set permissions based on alumni status
+    // Alumni: read:analytics, read:profile, write:profile (all pages)
+    // Non-Alumni: read:analytics (dashboard only)
     if (user.isAlumni) {
       req.session.permissions = ['read:analytics', 'read:profile', 'write:profile'];
     } else {
       req.session.permissions = ['read:analytics'];
     }
 
-    res.redirect('/account/dashboard');
+    // Save session before redirect
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+      }
+      res.redirect('/account/dashboard');
+    });
 
   } catch (err) {
     res.render('signup', { error: err.message, user: null });
@@ -57,6 +67,7 @@ exports.signup = async (req, res) => {
 /**
  * GET /account/login
  * Render login form
+ * Note: redirectIfAuthenticated middleware handles logged-in users
  */
 exports.loginPage = (req, res) => {
   res.render('login', { error: null, user: null });
@@ -65,6 +76,7 @@ exports.loginPage = (req, res) => {
 /**
  * POST /account/login
  * Handle login form submission
+ * Both alumni and non-alumni can log in
  */
 exports.login = async (req, res) => {
   try {
@@ -88,17 +100,27 @@ exports.login = async (req, res) => {
       return res.render('login', { error: 'Invalid email or password', user: null });
     }
 
-    // Check if user is alumni - redirect to cwk1 frontend not available page
-    if (user.isAlumni) {
-      return res.render('alumni-redirect', { user: null });
-    }
-
-    // Store session and permissions for non-alumni
+    // Store session info for both alumni and non-alumni
     req.session.userId = user._id;
     req.session.isAlumni = user.isAlumni;
-    req.session.permissions = ['read:analytics'];
+    req.session.fullname = user.fullname;
 
-    res.redirect('/account/dashboard');
+    // Set permissions based on alumni status
+    // Alumni: read:analytics, read:profile, write:profile (all pages)
+    // Non-Alumni: read:analytics (dashboard only)
+    if (user.isAlumni) {
+      req.session.permissions = ['read:analytics', 'read:profile', 'write:profile'];
+    } else {
+      req.session.permissions = ['read:analytics'];
+    }
+
+    // Save session before redirect
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+      }
+      res.redirect('/account/dashboard');
+    });
 
   } catch (err) {
     res.render('login', { error: err.message, user: null });
@@ -108,6 +130,7 @@ exports.login = async (req, res) => {
 /**
  * GET /account/dashboard
  * Display authenticated user dashboard
+ * Both alumni and non-alumni can access (read:analytics permission)
  */
 exports.dashboard = async (req, res) => {
   try {

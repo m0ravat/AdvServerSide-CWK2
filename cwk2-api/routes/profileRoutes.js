@@ -2,46 +2,51 @@ const express = require('express');
 const profileRouter = express.Router();
 
 const profileController = require('../Controller/profileController');
-const { requireAlumni } = require('../Middleware/alumniMiddleware');
+const { requireAlumniAuth, requirePermission } = require('../Middleware/authMiddleware');
 
-// All profile routes require user to be alumni
-profileRouter.use(requireAlumni);
+// All profile routes require user to be alumni with appropriate permissions
+// Alumni have: read:profile, write:profile
+// Non-alumni are denied access
 
+// Apply alumni check to all routes
+profileRouter.use(requireAlumniAuth);
+
+// Read operations require read:profile permission
 // Create profile
-profileRouter.post('/', profileController.createProfile);
+profileRouter.post('/', requirePermission('write:profile'), profileController.createProfile);
 
 // Get current user's profile
-profileRouter.get('/', profileController.getProfile);
+profileRouter.get('/', requirePermission('read:profile'), profileController.getProfile);
 
-// Update entire profile
-profileRouter.put('/', profileController.updateProfile);
+// Update entire profile (requires write:profile)
+profileRouter.put('/', requirePermission('write:profile'), profileController.updateProfile);
 
-// Delete entire profile
-profileRouter.delete('/', profileController.deleteProfile);
+// Delete entire profile (requires write:profile)
+profileRouter.delete('/', requirePermission('write:profile'), profileController.deleteProfile);
 
-// Degrees
-profileRouter.post('/degree', profileController.addDegree);
-profileRouter.patch('/degree/:degreeId', profileController.updateDegree);
-profileRouter.delete('/degree/:degreeId', profileController.removeDegree);
+// Degrees - read requires read:profile, write operations require write:profile
+profileRouter.post('/degree', requirePermission('write:profile'), profileController.addDegree);
+profileRouter.patch('/degree/:degreeId', requirePermission('write:profile'), profileController.updateDegree);
+profileRouter.delete('/degree/:degreeId', requirePermission('write:profile'), profileController.removeDegree);
 
 // Certifications
-profileRouter.post('/certification', profileController.addCertification);
-profileRouter.patch('/certification/:certificationId', profileController.updateCertification);
-profileRouter.delete('/certification/:certificationId', profileController.removeCertification);
+profileRouter.post('/certification', requirePermission('write:profile'), profileController.addCertification);
+profileRouter.patch('/certification/:certificationId', requirePermission('write:profile'), profileController.updateCertification);
+profileRouter.delete('/certification/:certificationId', requirePermission('write:profile'), profileController.removeCertification);
 
 // Licenses
-profileRouter.post('/license', profileController.addLicense);
-profileRouter.patch('/license/:licenseId', profileController.updateLicense);
-profileRouter.delete('/license/:licenseId', profileController.removeLicense);
+profileRouter.post('/license', requirePermission('write:profile'), profileController.addLicense);
+profileRouter.patch('/license/:licenseId', requirePermission('write:profile'), profileController.updateLicense);
+profileRouter.delete('/license/:licenseId', requirePermission('write:profile'), profileController.removeLicense);
 
 // Courses
-profileRouter.post('/course', profileController.addCourse);
-profileRouter.patch('/course/:courseId', profileController.updateCourse);
-profileRouter.delete('/course/:courseId', profileController.removeCourse);
+profileRouter.post('/course', requirePermission('write:profile'), profileController.addCourse);
+profileRouter.patch('/course/:courseId', requirePermission('write:profile'), profileController.updateCourse);
+profileRouter.delete('/course/:courseId', requirePermission('write:profile'), profileController.removeCourse);
 
 // Employment History
-profileRouter.post('/employment', profileController.addEmploymentHistory);
-profileRouter.patch('/employment/:employmentId', profileController.updateEmploymentHistory);
-profileRouter.delete('/employment/:employmentId', profileController.removeEmploymentHistory);
+profileRouter.post('/employment', requirePermission('write:profile'), profileController.addEmploymentHistory);
+profileRouter.patch('/employment/:employmentId', requirePermission('write:profile'), profileController.updateEmploymentHistory);
+profileRouter.delete('/employment/:employmentId', requirePermission('write:profile'), profileController.removeEmploymentHistory);
 
 module.exports = profileRouter;

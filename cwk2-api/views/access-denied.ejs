@@ -1,0 +1,86 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 text-center">
+      <!-- Lock Icon -->
+      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-6">
+        <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
+      
+      <p class="text-gray-600 mb-6">
+        <%= message || 'You do not have permission to access this resource.' %>
+      </p>
+
+      <!-- User Info Box -->
+      <div class="bg-gray-50 rounded-lg p-4 mb-6 text-left">
+        <h3 class="text-sm font-semibold text-gray-700 mb-3">Your Account Details</h3>
+        
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-500">Account Type:</span>
+            <span class="font-medium <%= isAlumni ? 'text-green-600' : 'text-blue-600' %>">
+              <%= isAlumni ? 'Alumni' : 'Non-Alumni' %>
+            </span>
+          </div>
+          
+          <div class="flex justify-between">
+            <span class="text-gray-500">Your Permissions:</span>
+            <span class="font-medium text-gray-700">
+              <% if (permissions && permissions.length > 0) { %>
+                <%= permissions.length %> granted
+              <% } else { %>
+                None
+              <% } %>
+            </span>
+          </div>
+        </div>
+
+        <% if (permissions && permissions.length > 0) { %>
+          <div class="mt-3 pt-3 border-t border-gray-200">
+            <p class="text-xs text-gray-500 mb-2">Granted permissions:</p>
+            <div class="flex flex-wrap gap-1">
+              <% permissions.forEach(function(perm) { %>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                  <%= perm %>
+                </span>
+              <% }); %>
+            </div>
+          </div>
+        <% } %>
+
+        <% if (requiredPermission) { %>
+          <div class="mt-3 pt-3 border-t border-gray-200">
+            <p class="text-xs text-gray-500 mb-2">Required permission:</p>
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+              <%= requiredPermission %>
+            </span>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Actions -->
+      <div class="space-y-3">
+        <a href="/account/dashboard" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Go to Dashboard
+        </a>
+        
+        <a href="/account/logout" class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Log Out
+        </a>
+      </div>
+
+      <!-- Help Text -->
+      <p class="mt-6 text-xs text-gray-500">
+        <% if (!isAlumni) { %>
+          Non-alumni accounts can only access the analytics dashboard. 
+          If you are an alumni, please contact support to update your account status.
+        <% } else { %>
+          If you believe this is an error, please contact support.
+        <% } %>
+      </p>
+    </div>
+  </div>
+</div>

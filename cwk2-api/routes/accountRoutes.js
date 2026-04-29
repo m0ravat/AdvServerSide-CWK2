@@ -2,21 +2,21 @@ const express = require('express');
 const accountRouter = express.Router();
 
 const authController = require('../Controller/authController');
-const { requireAuth } = require('../Middleware/authMiddleware');
+const { requireAuth, redirectIfAuthenticated } = require('../Middleware/authMiddleware');
 
 // ==========================
 // AUTH ROUTES
 // ==========================
 
-// Signup routes
-accountRouter.get('/signup', authController.signupPage);
-accountRouter.post('/signup', authController.signup);
+// Signup routes - redirect to dashboard if already logged in
+accountRouter.get('/signup', redirectIfAuthenticated, authController.signupPage);
+accountRouter.post('/signup', redirectIfAuthenticated, authController.signup);
 
-// Login routes
-accountRouter.get('/login', authController.loginPage);
-accountRouter.post('/login', authController.login);
+// Login routes - redirect to dashboard if already logged in
+accountRouter.get('/login', redirectIfAuthenticated, authController.loginPage);
+accountRouter.post('/login', redirectIfAuthenticated, authController.login);
 
-// Dashboard (requires authentication)
+// Dashboard (requires authentication - both alumni and non-alumni can access)
 accountRouter.get('/dashboard', requireAuth, authController.dashboard);
 
 // Logout (requires authentication)
