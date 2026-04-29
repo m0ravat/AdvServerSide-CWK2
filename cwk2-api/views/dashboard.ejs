@@ -841,10 +841,14 @@
                         padding: 12,
                         cornerRadius: 8,
                         callbacks: {
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label;
+                            },
                             label: function(context) {
                                 const value = context.raw;
+                                const label = context.label || '';
                                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                return context.label + ': ' + value + ' (' + percentage + '%)';
+                                return label + ': ' + value + ' (' + percentage + '%)';
                             }
                         }
                     }
@@ -896,10 +900,14 @@
                         padding: 12,
                         cornerRadius: 8,
                         callbacks: {
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label;
+                            },
                             label: function(context) {
                                 const value = context.raw;
+                                const label = context.label || '';
                                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                return 'Count: ' + value + ' (' + percentage + '%)';
+                                return label + ': ' + value + ' (' + percentage + '%)';
                             }
                         }
                     }
@@ -966,10 +974,14 @@
                         padding: 12,
                         cornerRadius: 8,
                         callbacks: {
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label;
+                            },
                             label: function(context) {
                                 const value = context.raw;
+                                const label = context.label || '';
                                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                return 'Count: ' + value + ' (' + percentage + '%)';
+                                return label + ': ' + value + ' (' + percentage + '%)';
                             }
                         }
                     }
@@ -1041,10 +1053,14 @@
                         padding: 12,
                         cornerRadius: 8,
                         callbacks: {
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label;
+                            },
                             label: function(context) {
                                 const value = context.raw;
+                                const yearLabel = context.label || '';
                                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                return label + ': ' + value + ' (' + percentage + '% of total)';
+                                return yearLabel + ': ' + value + ' (' + percentage + '%)';
                             }
                         }
                     }
@@ -1118,10 +1134,14 @@
                         padding: 12,
                         cornerRadius: 8,
                         callbacks: {
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label;
+                            },
                             label: function(context) {
                                 const value = context.raw;
+                                const locationLabel = context.label || '';
                                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                return 'Count: ' + value + ' (' + percentage + '%)';
+                                return locationLabel + ': ' + value + ' (' + percentage + '%)';
                             }
                         }
                     }
