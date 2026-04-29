@@ -1,29 +1,39 @@
-const fs = require('fs');
-const path = require('path');
 const Account = require('../Models/accountModel');
 const Profile = require('../Models/profileModel');
 
 /**
  * POST /admin/seed
- * Seed database with alumni data from JSON file
+ * Seed database with alumni data from request body
+ * Expects: { "data": [ { account: {...}, profile: {...} }, ... ] }
  * Warning: This will create accounts and profiles - use with caution
  */
 exports.seedDatabase = async (req, res) => {
   try {
     console.log('[ADMIN] Starting database seed...');
 
-    // Read seed data
-    const seedFilePath = path.join(__dirname, '../scripts/seed-alumni-data.json');
-    const seedData = JSON.parse(fs.readFileSync(seedFilePath, 'utf8'));
+    // Get seed data from request body
+    const { data } = req.body;
+
+    if (!data || !Array.isArray(data)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Request body must contain a "data" array with alumni records',
+      });
+    }
 
     let accountsCreated = 0;
     let profilesCreated = 0;
     let errors = [];
 
     // Process each entry
-    for (const entry of seedData) {
+    for (const entry of data) {
       try {
         const { account: accountData, profile: profileData } = entry;
+
+        if (!accountData) {
+          errors.push('Entry missing account data');
+          continue;
+        }
 
         // Check if account already exists
         const existingAccount = await Account.findOne({ email: accountData.email });
@@ -75,7 +85,7 @@ exports.seedDatabase = async (req, res) => {
           }
         }
       } catch (err) {
-        errors.push(`Error processing ${entry.account.email}: ${err.message}`);
+        errors.push(`Error processing entry: ${err.message}`);
         console.error(`[ADMIN] Error: ${err.message}`);
       }
     }
@@ -87,7 +97,7 @@ exports.seedDatabase = async (req, res) => {
       stats: {
         accountsCreated,
         profilesCreated,
-        totalProcessed: seedData.length,
+        totalProcessed: data.length,
         errors: errors.length,
       },
       errors: errors.length > 0 ? errors : null,
