@@ -152,16 +152,42 @@
         padding-bottom: 10px;
     }
 
+    .section h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #555;
+    }
+
+    .section p.description {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 20px;
+    }
+
     .chart-container {
         position: relative;
-        height: 300px;
+        height: 350px;
         margin-bottom: 30px;
+    }
+
+    .chart-container.small {
+        height: 280px;
+    }
+
+    .chart-container.large {
+        height: 400px;
     }
 
     .two-column {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 30px;
+    }
+
+    .three-column {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
     }
 
     .data-row {
@@ -221,6 +247,10 @@
         }
 
         .chart-container {
+            height: 300px;
+        }
+
+        .chart-container.small {
             height: 250px;
         }
     }
@@ -232,6 +262,99 @@
 
 <script>
     const chartInstances = {};
+
+    // Distinctive color palettes for different chart types
+    const colorPalettes = {
+        // Vibrant colors for pie/doughnut charts (like the examples)
+        sectors: [
+            '#4285F4', // Blue - Technology & IT
+            '#34A853', // Green - Financial Services
+            '#FBBC04', // Yellow - Consulting
+            '#EA4335', // Red - Healthcare
+            '#46BDC6', // Cyan - Education
+            '#7BAAF7', // Light Blue - Manufacturing
+            '#F07B72', // Coral - Retail & E-commerce
+            '#E91E8C', // Pink - Media & Entertainment
+            '#9E9E9E'  // Gray - Other
+        ],
+        // For job roles doughnut
+        roles: [
+            '#4285F4', // Software Engineer
+            '#34A853', // Data Analyst
+            '#FBBC04', // DevOps Engineer
+            '#9C27B0', // Full Stack Developer
+            '#00BCD4', // Cloud Engineer
+            '#E91E8C', // Software Developer
+            '#FF9800', // Business Analyst
+            '#009688', // Data Scientist
+            '#673AB7', // IT Consultant
+            '#607D8B'  // Other Roles
+        ],
+        // For certification trends (line/area chart)
+        certTrends: [
+            '#FF9800', // AWS - Orange
+            '#2196F3', // Docker/Kubernetes - Blue
+            '#009688', // Azure - Teal
+            '#4CAF50'  // Agile/Scrum - Green
+        ],
+        // For degree types
+        degrees: [
+            '#4285F4', // Bachelor
+            '#34A853', // Master
+            '#FBBC04', // PhD
+            '#EA4335', // Diploma
+            '#9C27B0'  // Certificate
+        ],
+        // For time to job (gradient feel)
+        timeToJob: [
+            '#4CAF50', // Green - fast
+            '#8BC34A',
+            '#CDDC39',
+            '#FFC107',
+            '#FF9800',
+            '#F44336'  // Red - slow
+        ],
+        // For bar charts
+        bars: [
+            '#4285F4',
+            '#5C6BC0',
+            '#7E57C2',
+            '#AB47BC',
+            '#E91E8C',
+            '#EC407A',
+            '#EF5350',
+            '#FF7043',
+            '#FFA726',
+            '#FFCA28'
+        ],
+        // Single gradient palette
+        gradient: ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899', '#f97316', '#fb923c', '#fbbf24']
+    };
+
+    // Animation configurations
+    const animations = {
+        pie: {
+            animateRotate: true,
+            animateScale: true,
+            duration: 1500,
+            easing: 'easeOutQuart'
+        },
+        bar: {
+            duration: 1200,
+            easing: 'easeOutBounce',
+            delay: function(context) {
+                return context.dataIndex * 100;
+            }
+        },
+        line: {
+            duration: 2000,
+            easing: 'easeInOutQuart'
+        },
+        radar: {
+            duration: 1500,
+            easing: 'easeOutQuad'
+        }
+    };
 
     async function loadAnalytics() {
         try {
@@ -295,14 +418,17 @@
         html += '</div>';
         html += '</div>';
 
-        // Employment Stats
+        // Employment Stats with Pie and Doughnut
         html += '<div class="section">';
         html += '<h2>Employment Overview</h2>';
         html += '<div class="stats-grid">';
         html += createStatCard('Employed', data.employment.employed, data.employment.employed + data.employment.notEmployed);
         html += createStatCard('Not Employed', data.employment.notEmployed, data.employment.employed + data.employment.notEmployed);
         html += '</div>';
-        html += '<div class="chart-container"><canvas id="employmentChart"></canvas></div>';
+        html += '<div class="two-column">';
+        html += '<div><h3>Employment Status</h3><div class="chart-container"><canvas id="employmentChart"></canvas></div></div>';
+        html += '<div><h3>Employment by Sector</h3><p class="description">Distribution of alumni across industry sectors.</p><div class="chart-container"><canvas id="sectorChart"></canvas></div></div>';
+        html += '</div>';
         html += '</div>';
 
         // Degree Stats
@@ -318,8 +444,8 @@
 
         // Degree Types and Fields
         html += '<div class="two-column">';
-        html += '<div><div class="chart-container"><canvas id="degreeTypeChart"></canvas></div></div>';
-        html += '<div><div class="chart-container"><canvas id="topFieldsChart"></canvas></div></div>';
+        html += '<div><h3>Degree Types</h3><div class="chart-container"><canvas id="degreeTypeChart"></canvas></div></div>';
+        html += '<div><h3>Top Fields of Study</h3><p class="description">Most popular academic disciplines among alumni.</p><div class="chart-container"><canvas id="topFieldsChart"></canvas></div></div>';
         html += '</div>';
         html += '</div>';
 
@@ -327,7 +453,7 @@
         html += '<div class="section">';
         html += '<h2>Time to Find Employment</h2>';
         html += '<div class="stats-grid">';
-        html += createStatCard('≤30 Days', data.timeToFindJob.thirtyDaysOrLess, data.totalProfiles);
+        html += createStatCard('30 Days or Less', data.timeToFindJob.thirtyDaysOrLess, data.totalProfiles);
         html += createStatCard('30 Days - 6 Months', data.timeToFindJob.thirtyDaysToSixMonths, data.totalProfiles);
         html += createStatCard('6 - 12 Months', data.timeToFindJob.sixMonthsToOneYear, data.totalProfiles);
         html += createStatCard('1 - 2 Years', data.timeToFindJob.oneYearToTwoYears, data.totalProfiles);
@@ -337,55 +463,64 @@
         html += '<div class="chart-container"><canvas id="timeToJobChart"></canvas></div>';
         html += '</div>';
 
-        // Certifications
+        // Certifications with Area Chart for Trends
         html += '<div class="section">';
         html += '<h2>Certifications Analytics</h2>';
         html += '<div class="two-column">';
-        html += '<div><div class="chart-container"><canvas id="certTypeChart"></canvas></div></div>';
-        html += '<div><div class="chart-container"><canvas id="topOrgChart"></canvas></div></div>';
+        html += '<div><h3>Certification Types</h3><p class="description">Breakdown by certification category.</p><div class="chart-container"><canvas id="certTypeChart"></canvas></div></div>';
+        html += '<div><h3>Top Certifying Organizations</h3><p class="description">Organizations issuing the most certifications.</p><div class="chart-container"><canvas id="topOrgChart"></canvas></div></div>';
         html += '</div>';
-        html += '<div style="margin-top: 20px;"><h3 style="margin-bottom: 15px; color: #333;">Certification Statistics</h3>';
+        html += '<div style="margin-top: 20px;"><h3>Certification Statistics</h3>';
         const certStats = {};
         certStats['Related to Degree'] = [data.certificationAnalytics.relatedToDegree, data.certificationAnalytics.totalCertifications];
         certStats['Not Related to Degree'] = [data.certificationAnalytics.notRelatedToDegree, data.certificationAnalytics.totalCertifications];
         html += createDataRows(certStats);
         html += '</div></div>';
 
-        // Licenses
+        // Licenses with Line Chart
         html += '<div class="section">';
         html += '<h2>Licenses Analytics</h2>';
+        html += '<h3>Licenses Acquired Over Time</h3>';
+        html += '<p class="description">Trend of professional licenses obtained by year.</p>';
         html += '<div class="chart-container"><canvas id="licenseYearChart"></canvas></div>';
-        html += '<div style="margin-top: 20px;"><h3 style="margin-bottom: 15px; color: #333;">License Statistics</h3>';
+        html += '<div style="margin-top: 20px;"><h3>License Statistics</h3>';
         const licenseStats = {};
         licenseStats['Related to Degree'] = [data.licenseAnalytics.relatedToDegree, data.licenseAnalytics.totalLicenses];
         licenseStats['Not Related to Degree'] = [data.licenseAnalytics.notRelatedToDegree, data.licenseAnalytics.totalLicenses];
         html += createDataRows(licenseStats);
         html += '</div></div>';
 
-        // Courses
+        // Courses with Area Chart
         html += '<div class="section">';
         html += '<h2>Courses Analytics</h2>';
+        html += '<h3>Courses Completed Over Time</h3>';
+        html += '<p class="description">Trend of professional development courses by year.</p>';
         html += '<div class="chart-container"><canvas id="courseYearChart"></canvas></div>';
-        html += '<div style="margin-top: 20px;"><h3 style="margin-bottom: 15px; color: #333;">Course Statistics</h3>';
+        html += '<div style="margin-top: 20px;"><h3>Course Statistics</h3>';
         const courseStats = {};
         courseStats['Related to Degree'] = [data.courseAnalytics.relatedToDegree, data.courseAnalytics.totalCourses];
         courseStats['Not Related to Degree'] = [data.courseAnalytics.notRelatedToDegree, data.courseAnalytics.totalCourses];
         html += createDataRows(courseStats);
         html += '</div></div>';
 
-        // Employment History
+        // Employment History with multiple chart types
         html += '<div class="section">';
         html += '<h2>Employment History</h2>';
+        html += '<h3>Jobs Per Alumni Profile</h3>';
         html += '<div class="chart-container"><canvas id="jobsPerProfileChart"></canvas></div>';
-        html += '<div style="margin-top: 30px;"><div class="two-column">';
-        html += '<div><div class="chart-container"><canvas id="sectorChart"></canvas></div></div>';
-        html += '<div><div class="chart-container"><canvas id="topCompaniesChart"></canvas></div></div>';
-        html += '</div></div></div>';
+        html += '<div style="margin-top: 30px;"><h3>Top Employers</h3>';
+        html += '<p class="description">Organizations employing the most alumni.</p>';
+        html += '<div class="chart-container large"><canvas id="topCompaniesChart"></canvas></div>';
+        html += '</div></div>';
 
-        // Locations
+        // Locations with Radar Chart
         html += '<div class="section">';
         html += '<h2>Alumni Locations</h2>';
-        html += '<div class="chart-container"><canvas id="locationChart"></canvas></div>';
+        html += '<p class="description">Geographic distribution of alumni network.</p>';
+        html += '<div class="two-column">';
+        html += '<div><h3>Location Distribution (Bar)</h3><div class="chart-container"><canvas id="locationBarChart"></canvas></div></div>';
+        html += '<div><h3>Location Distribution (Radar)</h3><div class="chart-container"><canvas id="locationRadarChart"></canvas></div></div>';
+        html += '</div>';
         html += '</div>';
 
         document.getElementById('analytics-content').innerHTML = html;
@@ -397,88 +532,114 @@
     }
 
     function initializeCharts(data) {
-        // Employment Chart
-        createChart('employmentChart', 'doughnut', ['Employed', 'Not Employed'], 
+        const totalEmployment = data.employment.employed + data.employment.notEmployed;
+
+        // Employment Doughnut Chart
+        createPieChart('employmentChart', 'doughnut', 
+            ['Employed', 'Not Employed'], 
             [data.employment.employed, data.employment.notEmployed],
-            ['#667eea', '#e0e0e0']);
+            ['#4CAF50', '#E0E0E0'],
+            totalEmployment);
 
-        // Degree Count Chart
-        createChart('degreeCountChart', 'bar', ['No Degrees', 'One Degree', 'Two Degrees', 'Three+ Degrees'],
-            [data.degrees.noDegrees, data.degrees.oneDegree, data.degrees.twoDegrees, data.degrees.threePlusDegrees],
-            ['#667eea', '#764ba2', '#a855f7', '#d946ef']);
-
-        // Degree Type Chart
-        createChart('degreeTypeChart', 'pie', ['Bachelor\'s', 'Master\'s', 'PhD', 'Diploma', 'Certificate'],
-            [data.degreeAnalytics.degreeTypeBreakdown.bachelor, data.degreeAnalytics.degreeTypeBreakdown.master, 
-             data.degreeAnalytics.degreeTypeBreakdown.phd, data.degreeAnalytics.degreeTypeBreakdown.diploma,
-             data.degreeAnalytics.degreeTypeBreakdown.certificate],
-            ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899']);
-
-        // Top Fields Chart (Top 5)
-        const topFields = data.degreeAnalytics.topFieldsOfStudy.slice(0, 5);
-        createChart('topFieldsChart', 'horizontalBar', topFields.map(f => f.field), 
-            topFields.map(f => f.count),
-            '#667eea');
-
-        // Time to Job Chart
-        createChart('timeToJobChart', 'bar', 
-            ['≤30 Days', '30D-6M', '6M-1Y', '1-2Y', '2-5Y', '5+ Y'],
-            [data.timeToFindJob.thirtyDaysOrLess, data.timeToFindJob.thirtyDaysToSixMonths, 
-             data.timeToFindJob.sixMonthsToOneYear, data.timeToFindJob.oneYearToTwoYears,
-             data.timeToFindJob.twoYearsToFiveYears, data.timeToFindJob.fiveYearsPlus],
-            ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899', '#f97316']);
-
-        // Certification Type Chart
-        const certTypeLabels = Object.keys(data.certificationAnalytics.certificationTypeBreakdown)
-            .map(k => k.replace(/([A-Z])/g, ' $1').trim());
-        const certTypeValues = Object.values(data.certificationAnalytics.certificationTypeBreakdown);
-        createChart('certTypeChart', 'doughnut', certTypeLabels, certTypeValues, '#667eea');
-
-        // Top Organizations Chart
-        const topOrgs = data.certificationAnalytics.top5Organizations;
-        createChart('topOrgChart', 'horizontalBar', topOrgs.map(o => o.organization), 
-            topOrgs.map(o => o.count), '#667eea');
-
-        // License Year Chart
-        const licenseYears = Object.keys(data.licenseAnalytics.licensesByYear).map(Number);
-        const licenseYearValues = licenseYears.map(y => data.licenseAnalytics.licensesByYear[y]);
-        createChart('licenseYearChart', 'line', licenseYears.map(y => y.toString()), 
-            licenseYearValues, '#667eea');
-
-        // Course Year Chart
-        const courseYears = Object.keys(data.courseAnalytics.coursesByYear).map(Number);
-        const courseYearValues = courseYears.map(y => data.courseAnalytics.coursesByYear[y]);
-        createChart('courseYearChart', 'line', courseYears.map(y => y.toString()), 
-            courseYearValues, '#764ba2');
-
-        // Jobs Per Profile Chart
-        createChart('jobsPerProfileChart', 'bar', 
-            ['1 Job', '1-3 Jobs', '3-5 Jobs', '5-9 Jobs', '10+ Jobs'],
-            [data.employmentHistoryAnalytics.jobsPerProfile.oneJob, 
-             data.employmentHistoryAnalytics.jobsPerProfile.oneToThreeJobs,
-             data.employmentHistoryAnalytics.jobsPerProfile.threeToFiveJobs,
-             data.employmentHistoryAnalytics.jobsPerProfile.fiveToNineJobs,
-             data.employmentHistoryAnalytics.jobsPerProfile.tenPlusJobs],
-            ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899']);
-
-        // Sector Chart
+        // Sector Pie Chart (like the example)
         const sectorLabels = Object.keys(data.employmentHistoryAnalytics.sectorBreakdown)
             .filter(s => data.employmentHistoryAnalytics.sectorBreakdown[s] > 0);
         const sectorValues = sectorLabels.map(s => data.employmentHistoryAnalytics.sectorBreakdown[s]);
-        createChart('sectorChart', 'doughnut', sectorLabels, sectorValues, '#667eea');
+        const sectorTotal = sectorValues.reduce((a, b) => a + b, 0);
+        createPieChart('sectorChart', 'pie', sectorLabels, sectorValues, colorPalettes.sectors, sectorTotal);
 
-        // Top Companies Chart
+        // Degree Count Bar Chart
+        createBarChart('degreeCountChart', 
+            ['No Degrees', 'One Degree', 'Two Degrees', 'Three+ Degrees'],
+            [data.degrees.noDegrees, data.degrees.oneDegree, data.degrees.twoDegrees, data.degrees.threePlusDegrees],
+            colorPalettes.degrees,
+            data.totalProfiles);
+
+        // Degree Type Doughnut Chart
+        const degreeTypeLabels = ['Bachelor', 'Master', 'PhD', 'Diploma', 'Certificate'];
+        const degreeTypeValues = [
+            data.degreeAnalytics.degreeTypeBreakdown.bachelor, 
+            data.degreeAnalytics.degreeTypeBreakdown.master, 
+            data.degreeAnalytics.degreeTypeBreakdown.phd, 
+            data.degreeAnalytics.degreeTypeBreakdown.diploma,
+            data.degreeAnalytics.degreeTypeBreakdown.certificate
+        ];
+        const degreeTypeTotal = degreeTypeValues.reduce((a, b) => a + b, 0);
+        createPieChart('degreeTypeChart', 'doughnut', degreeTypeLabels, degreeTypeValues, colorPalettes.degrees, degreeTypeTotal);
+
+        // Top Fields Horizontal Bar Chart
+        const topFields = data.degreeAnalytics.topFieldsOfStudy.slice(0, 8);
+        createHorizontalBarChart('topFieldsChart', 
+            topFields.map(f => f.field), 
+            topFields.map(f => f.count),
+            colorPalettes.bars);
+
+        // Time to Job Bar Chart
+        const timeLabels = ['30 Days or Less', '30D - 6M', '6M - 1Y', '1 - 2Y', '2 - 5Y', '5+ Y'];
+        const timeValues = [
+            data.timeToFindJob.thirtyDaysOrLess, 
+            data.timeToFindJob.thirtyDaysToSixMonths, 
+            data.timeToFindJob.sixMonthsToOneYear, 
+            data.timeToFindJob.oneYearToTwoYears,
+            data.timeToFindJob.twoYearsToFiveYears, 
+            data.timeToFindJob.fiveYearsPlus
+        ];
+        createBarChart('timeToJobChart', timeLabels, timeValues, colorPalettes.timeToJob, data.totalProfiles);
+
+        // Certification Type Doughnut Chart
+        const certTypeLabels = Object.keys(data.certificationAnalytics.certificationTypeBreakdown);
+        const certTypeValues = Object.values(data.certificationAnalytics.certificationTypeBreakdown);
+        const certTypeTotal = certTypeValues.reduce((a, b) => a + b, 0);
+        createPieChart('certTypeChart', 'doughnut', certTypeLabels, certTypeValues, colorPalettes.roles, certTypeTotal);
+
+        // Top Organizations Horizontal Bar Chart
+        const topOrgs = data.certificationAnalytics.top5Organizations;
+        createHorizontalBarChart('topOrgChart', 
+            topOrgs.map(o => o.organization), 
+            topOrgs.map(o => o.count),
+            colorPalettes.bars);
+
+        // License Year Line Chart with Fill
+        const licenseYears = Object.keys(data.licenseAnalytics.licensesByYear).sort();
+        const licenseYearValues = licenseYears.map(y => data.licenseAnalytics.licensesByYear[y]);
+        createLineChart('licenseYearChart', licenseYears, licenseYearValues, '#E91E8C', 'Licenses', true);
+
+        // Course Year Line Chart with Fill
+        const courseYears = Object.keys(data.courseAnalytics.coursesByYear).sort();
+        const courseYearValues = courseYears.map(y => data.courseAnalytics.coursesByYear[y]);
+        createLineChart('courseYearChart', courseYears, courseYearValues, '#2196F3', 'Courses', true);
+
+        // Jobs Per Profile Bar Chart
+        const jobLabels = ['1 Job', '1-3 Jobs', '3-5 Jobs', '5-9 Jobs', '10+ Jobs'];
+        const jobValues = [
+            data.employmentHistoryAnalytics.jobsPerProfile.oneJob, 
+            data.employmentHistoryAnalytics.jobsPerProfile.oneToThreeJobs,
+            data.employmentHistoryAnalytics.jobsPerProfile.threeToFiveJobs,
+            data.employmentHistoryAnalytics.jobsPerProfile.fiveToNineJobs,
+            data.employmentHistoryAnalytics.jobsPerProfile.tenPlusJobs
+        ];
+        const jobsTotal = jobValues.reduce((a, b) => a + b, 0);
+        createBarChart('jobsPerProfileChart', jobLabels, jobValues, colorPalettes.gradient.slice(0, 5), jobsTotal);
+
+        // Top Companies Horizontal Bar Chart (like the example)
         const topCompanies = data.employmentHistoryAnalytics.top5Companies;
-        createChart('topCompaniesChart', 'horizontalBar', topCompanies.map(c => c.company), 
-            topCompanies.map(c => c.count), '#667eea');
+        createHorizontalBarChart('topCompaniesChart', 
+            topCompanies.map(c => c.company), 
+            topCompanies.map(c => c.count),
+            ['#4285F4']); // Single blue color like the example
 
-        // Location Chart
+        // Location Bar Chart
         const locations = Object.keys(data.locations).filter(l => data.locations[l] > 0);
         const locationValues = locations.map(l => data.locations[l]);
-        createChart('locationChart', 'bar', locations, locationValues, '#667eea');
+        const locationTotal = locationValues.reduce((a, b) => a + b, 0);
+        createBarChart('locationBarChart', locations, locationValues, colorPalettes.bars, locationTotal);
+
+        // Location Radar Chart (like the example)
+        createRadarChart('locationRadarChart', locations, locationValues);
     }
 
-    function createChart(canvasId, type, labels, data, color) {
+    // Pie/Doughnut Chart with tooltips showing value and percentage
+    function createPieChart(canvasId, type, labels, data, colors, total) {
         const ctx = document.getElementById(canvasId);
         if (!ctx) return;
 
@@ -486,71 +647,375 @@
             chartInstances[canvasId].destroy();
         }
 
-        const isSingleColor = typeof color === 'string';
-        const colors = isSingleColor ? generateColors(color, labels.length) : color;
-
-        let chartType = type;
-        if (type === 'horizontalBar') {
-            chartType = 'bar';
-        }
-
-        const config = {
-            type: chartType,
+        chartInstances[canvasId] = new Chart(ctx, {
+            type: type,
             data: {
                 labels: labels,
                 datasets: [{
-                    label: '',
                     data: data,
                     backgroundColor: colors,
-                    borderColor: colors,
-                    borderWidth: 1
+                    borderColor: '#fff',
+                    borderWidth: 2,
+                    hoverBorderWidth: 3,
+                    hoverOffset: 8
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
-                    duration: 1000,
-                    easing: 'easeInOutQuart'
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1500,
+                    easing: 'easeOutQuart'
                 },
                 plugins: {
                     legend: {
-                        display: type !== 'bar' && type !== 'line' && type !== 'horizontalBar'
+                        position: 'right',
+                        labels: {
+                            padding: 15,
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            font: { size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return context.label + ': ' + value + ' (' + percentage + '%)';
+                            }
+                        }
                     }
-                },
-                indexAxis: type === 'horizontalBar' ? 'y' : undefined,
-                scales: type !== 'doughnut' && type !== 'pie' ? {
-                    y: {
-                        beginAtZero: true
-                    }
-                } : undefined
+                }
             }
-        };
-
-        chartInstances[canvasId] = new Chart(ctx, config);
+        });
     }
 
-    function generateColors(baseColor, count) {
-        const colors = ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899', '#f97316', '#fb923c', '#fbbf24'];
-        if (count <= colors.length) {
-            return colors.slice(0, count);
+    // Bar Chart with tooltips showing value and percentage
+    function createBarChart(canvasId, labels, data, colors, total) {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+
+        if (chartInstances[canvasId]) {
+            chartInstances[canvasId].destroy();
         }
-        return Array(count).fill(baseColor);
+
+        const backgroundColors = Array.isArray(colors) ? colors : Array(labels.length).fill(colors);
+
+        chartInstances[canvasId] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors.map(c => c),
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    hoverBackgroundColor: backgroundColors.map(c => adjustColorBrightness(c, -20))
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeOutBounce',
+                    delay: function(context) {
+                        return context.dataIndex * 100;
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return 'Count: ' + value + ' (' + percentage + '%)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { font: { size: 11 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    }
+
+    // Horizontal Bar Chart with tooltips
+    function createHorizontalBarChart(canvasId, labels, data, colors) {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+
+        if (chartInstances[canvasId]) {
+            chartInstances[canvasId].destroy();
+        }
+
+        const total = data.reduce((a, b) => a + b, 0);
+        const backgroundColors = Array.isArray(colors) && colors.length > 1 
+            ? colors.slice(0, labels.length) 
+            : Array(labels.length).fill(colors[0] || colors);
+
+        chartInstances[canvasId] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors,
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    hoverBackgroundColor: backgroundColors.map(c => adjustColorBrightness(c, -20))
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart',
+                    delay: function(context) {
+                        return context.dataIndex * 80;
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return 'Count: ' + value + ' (' + percentage + '%)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { font: { size: 11 } }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    }
+
+    // Line Chart with optional fill (area chart)
+    function createLineChart(canvasId, labels, data, color, label, fill) {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+
+        if (chartInstances[canvasId]) {
+            chartInstances[canvasId].destroy();
+        }
+
+        const total = data.reduce((a, b) => a + b, 0);
+
+        chartInstances[canvasId] = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: color,
+                    backgroundColor: fill ? hexToRgba(color, 0.2) : 'transparent',
+                    fill: fill,
+                    tension: 0.4,
+                    pointBackgroundColor: color,
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointHoverBackgroundColor: color,
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return label + ': ' + value + ' (' + percentage + '% of total)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { font: { size: 11 } }
+                    },
+                    x: {
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    }
+
+    // Radar Chart (like the location example)
+    function createRadarChart(canvasId, labels, data) {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+
+        if (chartInstances[canvasId]) {
+            chartInstances[canvasId].destroy();
+        }
+
+        const total = data.reduce((a, b) => a + b, 0);
+
+        chartInstances[canvasId] = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Alumni Count',
+                    data: data,
+                    backgroundColor: 'rgba(66, 133, 244, 0.2)',
+                    borderColor: '#4285F4',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#4285F4',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 7,
+                    pointHoverBackgroundColor: '#4285F4',
+                    pointHoverBorderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 1500,
+                    easing: 'easeOutQuad'
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return 'Count: ' + value + ' (' + percentage + '%)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        pointLabels: { 
+                            font: { size: 11 },
+                            color: '#666'
+                        },
+                        ticks: { 
+                            backdropColor: 'transparent',
+                            font: { size: 10 },
+                            color: '#999'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Utility: Adjust color brightness
+    function adjustColorBrightness(hex, percent) {
+        const num = parseInt(hex.replace('#', ''), 16);
+        const amt = Math.round(2.55 * percent);
+        const R = (num >> 16) + amt;
+        const G = (num >> 8 & 0x00FF) + amt;
+        const B = (num & 0x0000FF) + amt;
+        return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+            (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+            (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+    }
+
+    // Utility: Hex to RGBA
+    function hexToRgba(hex, alpha) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
     }
 
     function createStatCard(label, value, total) {
-        const percentage = Math.round((value / total) * 100);
+        const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
         return '<div class="stat-card">' +
             '<h3>' + label + '</h3>' +
             '<div class="value">' + value + '</div>' +
-            '<div class="percentage">' + percentage + '%</div>' +
+            '<div class="percentage">' + percentage + '% of total</div>' +
             '</div>';
     }
 
     function createDataRows(data) {
         let html = '';
         Object.entries(data).forEach(([label, [value, total]]) => {
-            const percentage = Math.round((value / total) * 100);
+            const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
             html += '<div class="data-row">' +
                 '<span class="data-label">' + label + '</span>' +
                 '<span><span class="data-value">' + value + '</span><span class="data-percentage">' + percentage + '%</span></span>' +
