@@ -46,13 +46,38 @@ exports.seedDatabase = async (req, res) => {
 
         // Create profile if alumni
         if (accountData.isAlumni && profileData) {
-          const profile = await Profile.create({
-            ...profileData,
-            account: account._id,
-          });
+          try {
+            // Remove _id from nested arrays as Mongoose will generate them
+            const cleanProfileData = { ...profileData };
+            
+            if (cleanProfileData.degrees) {
+              cleanProfileData.degrees = cleanProfileData.degrees.map(({ _id, ...rest }) => rest);
+            }
+            if (cleanProfileData.certifications) {
+              cleanProfileData.certifications = cleanProfileData.certifications.map(({ _id, ...rest }) => rest);
+            }
+            if (cleanProfileData.licenses) {
+              cleanProfileData.licenses = cleanProfileData.licenses.map(({ _id, ...rest }) => rest);
+            }
+            if (cleanProfileData.courses) {
+              cleanProfileData.courses = cleanProfileData.courses.map(({ _id, ...rest }) => rest);
+            }
+            if (cleanProfileData.employmentHistory) {
+              cleanProfileData.employmentHistory = cleanProfileData.employmentHistory.map(({ _id, ...rest }) => rest);
+            }
 
-          profilesCreated++;
-          console.log(`[ADMIN] Created profile for: ${accountData.fullname}`);
+            console.log(`[ADMIN] Creating profile for ${accountData.fullname} with account ID: ${account._id}`);
+            const profile = await Profile.create({
+              ...cleanProfileData,
+              account: account._id,
+            });
+
+            profilesCreated++;
+            console.log(`[ADMIN] Successfully created profile for: ${accountData.fullname}`);
+          } catch (profileErr) {
+            errors.push(`Profile creation failed for ${accountData.fullname}: ${profileErr.message}`);
+            console.error(`[ADMIN] Profile error for ${accountData.fullname}:`, profileErr);
+          }
         }
       } catch (err) {
         errors.push(`Error processing ${entry.account.email}: ${err.message}`);
