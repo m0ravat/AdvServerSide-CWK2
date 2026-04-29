@@ -104,6 +104,71 @@ exports.getAnalytics = async (req, res) => {
       .slice(0, 10)
       .map(([field, count]) => ({ field, count }));
 
+    // Certification-specific analytics
+    const allCertifications = profiles.flatMap(p => p.certifications);
+
+    // Top 5 issuing organizations
+    const organizationMap = {};
+    allCertifications.forEach(c => {
+      const org = c.issuingOrganization;
+      organizationMap[org] = (organizationMap[org] || 0) + 1;
+    });
+
+    const top5Organizations = Object.entries(organizationMap)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([org, count]) => ({ organization: org, count }));
+
+    // Certifications by year (2015-2025)
+    const certificationsByYear = {};
+    for (let year = 2015; year <= 2025; year++) {
+      certificationsByYear[year] = allCertifications.filter(c => {
+        const completionYear = new Date(c.completionDate).getFullYear();
+        return completionYear === year;
+      }).length;
+    }
+
+    // Certifications by month in 2026
+    const certificationsByMonth2026 = {
+      January: 0,
+      February: 0,
+      March: 0,
+      April: 0,
+      May: 0,
+      June: 0,
+      July: 0,
+      August: 0,
+      September: 0,
+      October: 0,
+      November: 0,
+      December: 0,
+    };
+
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    allCertifications.forEach(c => {
+      const completionDate = new Date(c.completionDate);
+      if (completionDate.getFullYear() === 2026) {
+        const monthIndex = completionDate.getMonth();
+        certificationsByMonth2026[months[monthIndex]]++;
+      }
+    });
+
+    // Certification type breakdown
+    const certTypeStats = {
+      Cloud: allCertifications.filter(c => c.typeOfCert === 'Cloud').length,
+      DevOps: allCertifications.filter(c => c.typeOfCert === 'DevOps').length,
+      SoftwareDevelopment: allCertifications.filter(c => c.typeOfCert === 'Software Development').length,
+      DataScience: allCertifications.filter(c => c.typeOfCert === 'Data Science').length,
+      ProjectManagement: allCertifications.filter(c => c.typeOfCert === 'Project Management').length,
+      Testing: allCertifications.filter(c => c.typeOfCert === 'Testing').length,
+      Other: allCertifications.filter(c => c.typeOfCert === 'Other').length,
+    };
+
+    // Certifications related to degree
+    const relatedToDegree = allCertifications.filter(c => c.relatedToDegree === true).length;
+    const notRelatedToDegree = allCertifications.length - relatedToDegree;
+
     const analytics = {
       totalProfiles: profiles.length,
       employment: {
@@ -132,6 +197,15 @@ exports.getAnalytics = async (req, res) => {
         degreeTypeBreakdown: degreeTypeStats,
         degreesByYear,
         topFieldsOfStudy: top10Fields,
+      },
+      certificationAnalytics: {
+        top5Organizations,
+        certificationsByYear,
+        certificationsByMonth2026,
+        certificationTypeBreakdown: certTypeStats,
+        relatedToDegree,
+        notRelatedToDegree,
+        totalCertifications: allCertifications.length,
       },
     };
 
