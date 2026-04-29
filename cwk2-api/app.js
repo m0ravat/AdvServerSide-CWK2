@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const expressLayouts = require('express-ejs-layouts');
 
 const accountRouter = require("./routes/accountRoutes");
 const analyticsRouter = require("./routes/analyticsRoutes");
@@ -25,8 +26,10 @@ app.use(
 );
 
 // View engine configuration
+app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.set('views', './views');
+app.set('layout', 'layout');
 
 // Middleware
 app.use(express.json());

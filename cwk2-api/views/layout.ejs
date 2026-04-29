@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title><%= typeof title !== 'undefined' ? title : 'Alumni Analytics' %></title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
         }
 
         body {
@@ -19,6 +24,15 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+        }
+
+        body.authenticated {
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            min-height: 100vh;
         }
 
         .container {
@@ -120,6 +134,90 @@
             text-decoration: underline;
         }
 
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        nav {
+            background: #333;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            height: 60px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .brand {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #ddd;
+        }
+
+        nav .logout-btn {
+            background: #667eea;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            font-size: 14px;
+        }
+
+        nav .logout-btn:hover {
+            background: #5568d3;
+        }
+
+        .page-container {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        body.authenticated .container {
+            max-width: 1200px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 30px;
@@ -128,12 +226,42 @@
             h1 {
                 font-size: 24px;
             }
+
+            nav {
+                padding: 0 15px;
+            }
+
+            nav .nav-links {
+                gap: 15px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <%- body %>
-    </div>
+<body<% if (user) { %> class="authenticated"<% } %>>
+    <% if (user) { %>
+        <nav>
+            <div class="brand">Analytics and Alumni System</div>
+            <div class="nav-links">
+                <a href="/cwk2/analytics/stats">Analytics</a>
+                <form method="GET" action="/account/logout" style="display: inline;">
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </div>
+        </nav>
+        <div class="page-container">
+            <div class="container">
+                <%- body %>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="container">
+            <%- body %>
+        </div>
+    <% } %>
 </body>
 </html>
