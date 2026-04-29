@@ -14,7 +14,7 @@
     "express",
     "mongodb"
   ],
-  "author": "Westminster University",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
