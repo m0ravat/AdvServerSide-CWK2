@@ -1080,7 +1080,7 @@
         });
     }
 
-    // Radar Chart - improved spacing
+    // Polar Area Chart - spreads segments evenly for better readability
     function createRadarChart(canvasId, labels, data) {
         const ctx = document.getElementById(canvasId);
         if (!ctx) return;
@@ -1090,43 +1090,54 @@
         }
 
         const total = data.reduce((a, b) => a + b, 0);
-        const maxValue = Math.max(...data);
-        const suggestedMax = maxValue <= 10 ? Math.ceil(maxValue / 2) * 2 + 2 : 
-                             maxValue <= 50 ? Math.ceil(maxValue / 10) * 10 + 10 :
-                             Math.ceil(maxValue / 25) * 25 + 25;
-        const stepSize = suggestedMax <= 10 ? 2 : 
-                         suggestedMax <= 50 ? 10 : 
-                         suggestedMax <= 100 ? 25 : 50;
+        
+        // Distinctive colors for each location segment
+        const polarColors = [
+            'rgba(66, 133, 244, 0.85)',   // Blue
+            'rgba(52, 168, 83, 0.85)',    // Green
+            'rgba(251, 188, 5, 0.85)',    // Yellow
+            'rgba(234, 67, 53, 0.85)',    // Red
+            'rgba(0, 172, 193, 0.85)',    // Cyan
+            'rgba(171, 71, 188, 0.85)',   // Purple
+            'rgba(255, 112, 67, 0.85)',   // Orange
+            'rgba(124, 179, 66, 0.85)',   // Light Green
+            'rgba(63, 81, 181, 0.85)',    // Indigo
+            'rgba(233, 30, 99, 0.85)',    // Pink
+            'rgba(158, 158, 158, 0.85)'   // Grey
+        ];
 
         chartInstances[canvasId] = new Chart(ctx, {
-            type: 'radar',
+            type: 'polarArea',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Alumni Count',
                     data: data,
-                    backgroundColor: 'rgba(66, 133, 244, 0.25)',
-                    borderColor: '#4285F4',
-                    borderWidth: 2.5,
-                    pointBackgroundColor: '#4285F4',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 8,
-                    pointHoverBackgroundColor: '#4285F4',
-                    pointHoverBorderColor: '#fff',
-                    pointHoverBorderWidth: 3
+                    backgroundColor: polarColors.slice(0, labels.length),
+                    borderColor: '#fff',
+                    borderWidth: 2,
+                    hoverBorderWidth: 3,
+                    hoverBorderColor: '#fff'
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
+                    animateRotate: true,
+                    animateScale: true,
                     duration: 1500,
-                    easing: 'easeOutQuad'
+                    easing: 'easeOutQuart'
                 },
                 plugins: {
-                    legend: { display: false },
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 15,
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            font: { size: 11 }
+                        }
+                    },
                     tooltip: {
                         backgroundColor: 'rgba(0, 0, 0, 0.8)',
                         titleFont: { size: 14, weight: 'bold' },
@@ -1149,27 +1160,11 @@
                 scales: {
                     r: {
                         beginAtZero: true,
-                        suggestedMin: 0,
-                        suggestedMax: suggestedMax,
-                        angleLines: { 
-                            color: 'rgba(0, 0, 0, 0.1)',
-                            lineWidth: 1
-                        },
-                        grid: { 
-                            color: 'rgba(0, 0, 0, 0.08)',
-                            circular: false
-                        },
-                        pointLabels: { 
-                            font: { size: 12, weight: '500' },
-                            color: '#444',
-                            padding: 20
-                        },
-                        ticks: { 
+                        grid: { color: 'rgba(0, 0, 0, 0.08)' },
+                        ticks: {
                             backdropColor: 'transparent',
                             font: { size: 10 },
-                            color: '#888',
-                            stepSize: stepSize,
-                            showLabelBackdrop: false
+                            color: '#666'
                         }
                     }
                 }
