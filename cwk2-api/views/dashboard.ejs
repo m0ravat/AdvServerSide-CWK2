@@ -55,6 +55,12 @@
         padding-bottom: 10px;
     }
 
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 30px;
+    }
+
     .two-column {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -116,6 +122,10 @@
             flex-direction: column;
             gap: 5px;
         }
+
+        .chart-container {
+            height: 250px;
+        }
     }
 </style>
 
@@ -124,6 +134,8 @@
 </div>
 
 <script>
+    const chartInstances = {};
+
     async function loadAnalytics() {
         try {
             const response = await fetch('/cwk2/analytics/stats');
@@ -147,6 +159,7 @@
         html += createStatCard('Employed', data.employment.employed, data.employment.employed + data.employment.notEmployed);
         html += createStatCard('Not Employed', data.employment.notEmployed, data.employment.employed + data.employment.notEmployed);
         html += '</div>';
+        html += '<div class="chart-container"><canvas id="employmentChart"></canvas></div>';
         html += '</div>';
 
         // Degree Stats
@@ -158,28 +171,13 @@
         html += createStatCard('Two Degrees', data.degrees.twoDegrees, data.totalProfiles);
         html += createStatCard('Three+ Degrees', data.degrees.threePlusDegrees, data.totalProfiles);
         html += '</div>';
+        html += '<div class="chart-container"><canvas id="degreeCountChart"></canvas></div>';
 
-        // Degree Types
+        // Degree Types and Fields
         html += '<div class="two-column">';
-        html += '<div>';
-        html += '<h3 style="margin-bottom: 15px; color: #333;">Degree Types</h3>';
-        html += createDataRows({
-            'Bachelor\'s Degrees': [data.degreeAnalytics.degreeTypeBreakdown.bachelor, data.degreeAnalytics.degreeTypeBreakdown.bachelor + data.degreeAnalytics.degreeTypeBreakdown.master + data.degreeAnalytics.degreeTypeBreakdown.phd + data.degreeAnalytics.degreeTypeBreakdown.diploma + data.degreeAnalytics.degreeTypeBreakdown.certificate],
-            'Master\'s Degrees': [data.degreeAnalytics.degreeTypeBreakdown.master, data.degreeAnalytics.degreeTypeBreakdown.bachelor + data.degreeAnalytics.degreeTypeBreakdown.master + data.degreeAnalytics.degreeTypeBreakdown.phd + data.degreeAnalytics.degreeTypeBreakdown.diploma + data.degreeAnalytics.degreeTypeBreakdown.certificate],
-            'PhDs': [data.degreeAnalytics.degreeTypeBreakdown.phd, data.degreeAnalytics.degreeTypeBreakdown.bachelor + data.degreeAnalytics.degreeTypeBreakdown.master + data.degreeAnalytics.degreeTypeBreakdown.phd + data.degreeAnalytics.degreeTypeBreakdown.diploma + data.degreeAnalytics.degreeTypeBreakdown.certificate]
-        });
+        html += '<div><div class="chart-container"><canvas id="degreeTypeChart"></canvas></div></div>';
+        html += '<div><div class="chart-container"><canvas id="topFieldsChart"></canvas></div></div>';
         html += '</div>';
-
-        // Top Fields of Study
-        html += '<div>';
-        html += '<h3 style="margin-bottom: 15px; color: #333;">Top 10 Fields of Study</h3>';
-        const fieldRows = {};
-        data.degreeAnalytics.topFieldsOfStudy.forEach((field, idx) => {
-            const total = data.degreeAnalytics.topFieldsOfStudy.reduce((sum, f) => sum + f.count, 0);
-            fieldRows[field.field] = [field.count, total];
-        });
-        html += createDataRows(fieldRows);
-        html += '</div></div>';
         html += '</div>';
 
         // Time to Find Job
@@ -193,43 +191,208 @@
         html += createStatCard('2 - 5 Years', data.timeToFindJob.twoYearsToFiveYears, data.totalProfiles);
         html += createStatCard('5+ Years', data.timeToFindJob.fiveYearsPlus, data.totalProfiles);
         html += '</div>';
+        html += '<div class="chart-container"><canvas id="timeToJobChart"></canvas></div>';
         html += '</div>';
 
         // Certifications
         html += '<div class="section">';
         html += '<h2>Certifications Analytics</h2>';
         html += '<div class="two-column">';
-        html += '<div>';
-        html += '<h3 style="margin-bottom: 15px; color: #333;">Certification Types</h3>';
-        const certTypes = {};
-        Object.entries(data.certificationAnalytics.certificationTypeBreakdown).forEach(([key, val]) => {
-            certTypes[key.replace(/([A-Z])/g, ' $1').trim()] = [val, data.certificationAnalytics.totalCertifications];
-        });
-        html += createDataRows(certTypes);
+        html += '<div><div class="chart-container"><canvas id="certTypeChart"></canvas></div></div>';
+        html += '<div><div class="chart-container"><canvas id="topOrgChart"></canvas></div></div>';
         html += '</div>';
-        html += '<div>';
-        html += '<h3 style="margin-bottom: 15px; color: #333;">Top 5 Issuing Organizations</h3>';
-        const orgRows = {};
-        data.certificationAnalytics.top5Organizations.forEach(org => {
-            orgRows[org.organization] = [org.count, data.certificationAnalytics.totalCertifications];
-        });
-        html += createDataRows(orgRows);
+        html += '<div style="margin-top: 20px;"><h3 style="margin-bottom: 15px; color: #333;">Certification Statistics</h3>';
+        const certStats = {};
+        certStats['Related to Degree'] = [data.certificationAnalytics.relatedToDegree, data.certificationAnalytics.totalCertifications];
+        certStats['Not Related to Degree'] = [data.certificationAnalytics.notRelatedToDegree, data.certificationAnalytics.totalCertifications];
+        html += createDataRows(certStats);
         html += '</div></div>';
-        html += '</div>';
+
+        // Licenses
+        html += '<div class="section">';
+        html += '<h2>Licenses Analytics</h2>';
+        html += '<div class="chart-container"><canvas id="licenseYearChart"></canvas></div>';
+        html += '<div style="margin-top: 20px;"><h3 style="margin-bottom: 15px; color: #333;">License Statistics</h3>';
+        const licenseStats = {};
+        licenseStats['Related to Degree'] = [data.licenseAnalytics.relatedToDegree, data.licenseAnalytics.totalLicenses];
+        licenseStats['Not Related to Degree'] = [data.licenseAnalytics.notRelatedToDegree, data.licenseAnalytics.totalLicenses];
+        html += createDataRows(licenseStats);
+        html += '</div></div>';
+
+        // Courses
+        html += '<div class="section">';
+        html += '<h2>Courses Analytics</h2>';
+        html += '<div class="chart-container"><canvas id="courseYearChart"></canvas></div>';
+        html += '<div style="margin-top: 20px;"><h3 style="margin-bottom: 15px; color: #333;">Course Statistics</h3>';
+        const courseStats = {};
+        courseStats['Related to Degree'] = [data.courseAnalytics.relatedToDegree, data.courseAnalytics.totalCourses];
+        courseStats['Not Related to Degree'] = [data.courseAnalytics.notRelatedToDegree, data.courseAnalytics.totalCourses];
+        html += createDataRows(courseStats);
+        html += '</div></div>';
+
+        // Employment History
+        html += '<div class="section">';
+        html += '<h2>Employment History</h2>';
+        html += '<div class="chart-container"><canvas id="jobsPerProfileChart"></canvas></div>';
+        html += '<div style="margin-top: 30px;"><div class="two-column">';
+        html += '<div><div class="chart-container"><canvas id="sectorChart"></canvas></div></div>';
+        html += '<div><div class="chart-container"><canvas id="topCompaniesChart"></canvas></div></div>';
+        html += '</div></div></div>';
 
         // Locations
         html += '<div class="section">';
         html += '<h2>Alumni Locations</h2>';
-        html += '<div class="stats-grid">';
-        Object.entries(data.locations).forEach(([location, count]) => {
-            if (count > 0) {
-                html += createStatCard(location, count, data.totalProfiles);
-            }
-        });
-        html += '</div>';
+        html += '<div class="chart-container"><canvas id="locationChart"></canvas></div>';
         html += '</div>';
 
         document.getElementById('analytics-content').innerHTML = html;
+
+        // Initialize all charts
+        setTimeout(() => {
+            initializeCharts(data);
+        }, 0);
+    }
+
+    function initializeCharts(data) {
+        // Employment Chart
+        createChart('employmentChart', 'doughnut', ['Employed', 'Not Employed'], 
+            [data.employment.employed, data.employment.notEmployed],
+            ['#667eea', '#e0e0e0']);
+
+        // Degree Count Chart
+        createChart('degreeCountChart', 'bar', ['No Degrees', 'One Degree', 'Two Degrees', 'Three+ Degrees'],
+            [data.degrees.noDegrees, data.degrees.oneDegree, data.degrees.twoDegrees, data.degrees.threePlusDegrees],
+            ['#667eea', '#764ba2', '#a855f7', '#d946ef']);
+
+        // Degree Type Chart
+        createChart('degreeTypeChart', 'pie', ['Bachelor\'s', 'Master\'s', 'PhD', 'Diploma', 'Certificate'],
+            [data.degreeAnalytics.degreeTypeBreakdown.bachelor, data.degreeAnalytics.degreeTypeBreakdown.master, 
+             data.degreeAnalytics.degreeTypeBreakdown.phd, data.degreeAnalytics.degreeTypeBreakdown.diploma,
+             data.degreeAnalytics.degreeTypeBreakdown.certificate],
+            ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899']);
+
+        // Top Fields Chart (Top 5)
+        const topFields = data.degreeAnalytics.topFieldsOfStudy.slice(0, 5);
+        createChart('topFieldsChart', 'horizontalBar', topFields.map(f => f.field), 
+            topFields.map(f => f.count),
+            '#667eea');
+
+        // Time to Job Chart
+        createChart('timeToJobChart', 'bar', 
+            ['≤30 Days', '30D-6M', '6M-1Y', '1-2Y', '2-5Y', '5+ Y'],
+            [data.timeToFindJob.thirtyDaysOrLess, data.timeToFindJob.thirtyDaysToSixMonths, 
+             data.timeToFindJob.sixMonthsToOneYear, data.timeToFindJob.oneYearToTwoYears,
+             data.timeToFindJob.twoYearsToFiveYears, data.timeToFindJob.fiveYearsPlus],
+            ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899', '#f97316']);
+
+        // Certification Type Chart
+        const certTypeLabels = Object.keys(data.certificationAnalytics.certificationTypeBreakdown)
+            .map(k => k.replace(/([A-Z])/g, ' $1').trim());
+        const certTypeValues = Object.values(data.certificationAnalytics.certificationTypeBreakdown);
+        createChart('certTypeChart', 'doughnut', certTypeLabels, certTypeValues, '#667eea');
+
+        // Top Organizations Chart
+        const topOrgs = data.certificationAnalytics.top5Organizations;
+        createChart('topOrgChart', 'horizontalBar', topOrgs.map(o => o.organization), 
+            topOrgs.map(o => o.count), '#667eea');
+
+        // License Year Chart
+        const licenseYears = Object.keys(data.licenseAnalytics.licensesByYear).map(Number);
+        const licenseYearValues = licenseYears.map(y => data.licenseAnalytics.licensesByYear[y]);
+        createChart('licenseYearChart', 'line', licenseYears.map(y => y.toString()), 
+            licenseYearValues, '#667eea');
+
+        // Course Year Chart
+        const courseYears = Object.keys(data.courseAnalytics.coursesByYear).map(Number);
+        const courseYearValues = courseYears.map(y => data.courseAnalytics.coursesByYear[y]);
+        createChart('courseYearChart', 'line', courseYears.map(y => y.toString()), 
+            courseYearValues, '#764ba2');
+
+        // Jobs Per Profile Chart
+        createChart('jobsPerProfileChart', 'bar', 
+            ['1 Job', '1-3 Jobs', '3-5 Jobs', '5-9 Jobs', '10+ Jobs'],
+            [data.employmentHistoryAnalytics.jobsPerProfile.oneJob, 
+             data.employmentHistoryAnalytics.jobsPerProfile.oneToThreeJobs,
+             data.employmentHistoryAnalytics.jobsPerProfile.threeToFiveJobs,
+             data.employmentHistoryAnalytics.jobsPerProfile.fiveToNineJobs,
+             data.employmentHistoryAnalytics.jobsPerProfile.tenPlusJobs],
+            ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899']);
+
+        // Sector Chart
+        const sectorLabels = Object.keys(data.employmentHistoryAnalytics.sectorBreakdown)
+            .filter(s => data.employmentHistoryAnalytics.sectorBreakdown[s] > 0);
+        const sectorValues = sectorLabels.map(s => data.employmentHistoryAnalytics.sectorBreakdown[s]);
+        createChart('sectorChart', 'doughnut', sectorLabels, sectorValues, '#667eea');
+
+        // Top Companies Chart
+        const topCompanies = data.employmentHistoryAnalytics.top5Companies;
+        createChart('topCompaniesChart', 'horizontalBar', topCompanies.map(c => c.company), 
+            topCompanies.map(c => c.count), '#667eea');
+
+        // Location Chart
+        const locations = Object.keys(data.locations).filter(l => data.locations[l] > 0);
+        const locationValues = locations.map(l => data.locations[l]);
+        createChart('locationChart', 'bar', locations, locationValues, '#667eea');
+    }
+
+    function createChart(canvasId, type, labels, data, color) {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+
+        if (chartInstances[canvasId]) {
+            chartInstances[canvasId].destroy();
+        }
+
+        const isSingleColor = typeof color === 'string';
+        const colors = isSingleColor ? generateColors(color, labels.length) : color;
+
+        let chartType = type;
+        if (type === 'horizontalBar') {
+            chartType = 'bar';
+        }
+
+        const config = {
+            type: chartType,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '',
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: colors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
+                },
+                plugins: {
+                    legend: {
+                        display: type !== 'bar' && type !== 'line' && type !== 'horizontalBar'
+                    }
+                },
+                indexAxis: type === 'horizontalBar' ? 'y' : undefined,
+                scales: type !== 'doughnut' && type !== 'pie' ? {
+                    y: {
+                        beginAtZero: true
+                    }
+                } : undefined
+            }
+        };
+
+        chartInstances[canvasId] = new Chart(ctx, config);
+    }
+
+    function generateColors(baseColor, count) {
+        const colors = ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899', '#f97316', '#fb923c', '#fbbf24'];
+        if (count <= colors.length) {
+            return colors.slice(0, count);
+        }
+        return Array(count).fill(baseColor);
     }
 
     function createStatCard(label, value, total) {
