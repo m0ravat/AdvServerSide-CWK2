@@ -1,7 +1,7 @@
-// Helper function to calculate percentage with 2 decimal places
+// Helper function to calculate percentage as whole number
 const calculatePercentage = (value, total) => {
   if (total === 0) return 0;
-  return parseFloat(((value / total) * 100).toFixed(2));
+  return Math.round((value / total) * 100);
 };
 
 // Middleware to add percentages to analytics data
