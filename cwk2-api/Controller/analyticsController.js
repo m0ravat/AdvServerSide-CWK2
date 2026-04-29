@@ -62,6 +62,7 @@ exports.getAnalytics = async (req, res) => {
       SouthAmerica: profiles.filter(p => p.location === 'South America').length,
       NorthAmerica: profiles.filter(p => p.location === 'North America').length,
       Europe: profiles.filter(p => p.location === 'Europe').length,
+      Other: profiles.filter(p => p.location === 'Other').length,
     };
 
     // Certifications, Courses, Licenses combined stats
@@ -84,6 +85,7 @@ exports.getAnalytics = async (req, res) => {
       phd: allDegrees.filter(d => d.degreeType === 'PhD').length,
       diploma: allDegrees.filter(d => d.degreeType === 'Diploma').length,
       certificate: allDegrees.filter(d => d.degreeType === 'Certificate').length,
+      other: allDegrees.filter(d => d.degreeType === 'Other').length,
     };
 
     // Degrees completed by year (2015-2025)

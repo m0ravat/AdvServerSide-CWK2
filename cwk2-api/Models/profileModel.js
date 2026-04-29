@@ -13,7 +13,7 @@ const ProfileSchema = new mongoose.Schema(
     timeToFindJob: { type: Number },
     location: {
       type: String,
-      enum: ['London', 'England', 'UK', 'Scotland', 'Ireland', 'Asia', 'Africa', 'South America', 'North America', 'Europe'],
+      enum: ['London', 'England', 'UK', 'Scotland', 'Ireland', 'Asia', 'Africa', 'South America', 'North America', 'Europe', 'Other'],
     },
     biography: {
       type: String,
@@ -42,7 +42,7 @@ const ProfileSchema = new mongoose.Schema(
         },
         degreeType: {
           type: String,
-          enum: ['Bachelor', 'Master', 'PhD', 'Diploma', 'Certificate'],
+          enum: ['Bachelor', 'Master', 'PhD', 'Diploma', 'Certificate', 'Other'],
           required: [true, 'Degree type is required'],
         },
         fieldOfStudy: {
