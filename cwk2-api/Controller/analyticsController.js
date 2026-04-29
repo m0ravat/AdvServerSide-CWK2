@@ -71,6 +71,39 @@ exports.getAnalytics = async (req, res) => {
     const sixToTenCertifications = totalCredentialsPerProfile.filter(c => c >= 6 && c <= 10).length;
     const tenPlusCertifications = totalCredentialsPerProfile.filter(c => c > 10).length;
 
+    // Degree-specific analytics
+    const allDegrees = profiles.flatMap(p => p.degrees);
+    
+    // Degree type breakdown
+    const degreeTypeStats = {
+      bachelor: allDegrees.filter(d => d.degreeType === 'Bachelor').length,
+      master: allDegrees.filter(d => d.degreeType === 'Master').length,
+      phd: allDegrees.filter(d => d.degreeType === 'PhD').length,
+      diploma: allDegrees.filter(d => d.degreeType === 'Diploma').length,
+      certificate: allDegrees.filter(d => d.degreeType === 'Certificate').length,
+    };
+
+    // Degrees completed by year (2015-2025)
+    const degreesByYear = {};
+    for (let year = 2015; year <= 2025; year++) {
+      degreesByYear[year] = allDegrees.filter(d => {
+        const completionYear = new Date(d.completionDate).getFullYear();
+        return completionYear === year;
+      }).length;
+    }
+
+    // Top 10 fields of study
+    const fieldOfStudyMap = {};
+    allDegrees.forEach(d => {
+      const field = d.fieldOfStudy;
+      fieldOfStudyMap[field] = (fieldOfStudyMap[field] || 0) + 1;
+    });
+
+    const top10Fields = Object.entries(fieldOfStudyMap)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([field, count]) => ({ field, count }));
+
     const analytics = {
       totalProfiles: profiles.length,
       employment: {
@@ -94,6 +127,11 @@ exports.getAnalytics = async (req, res) => {
         oneToFiveCertifications,
         sixToTenCertifications,
         tenPlusCertifications,
+      },
+      degreeAnalytics: {
+        degreeTypeBreakdown: degreeTypeStats,
+        degreesByYear,
+        topFieldsOfStudy: top10Fields,
       },
     };
 
