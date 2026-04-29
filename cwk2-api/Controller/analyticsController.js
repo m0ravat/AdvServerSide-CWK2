@@ -286,6 +286,79 @@ exports.getAnalytics = async (req, res) => {
     const coursesRelatedToDegree = allCourses.filter(c => c.relatedToDegree === true).length;
     const coursesNotRelatedToDegree = allCourses.length - coursesRelatedToDegree;
 
+    // Employment history analytics
+    const allJobs = profiles.flatMap(p => p.employmentHistory);
+
+    // Jobs per profile breakdown
+    const jobsPerProfile = profiles.map(p => p.employmentHistory.length);
+    const oneJob = jobsPerProfile.filter(j => j === 1).length;
+    const oneToThreeJobs = jobsPerProfile.filter(j => j >= 1 && j <= 3).length;
+    const threeToFiveJobs = jobsPerProfile.filter(j => j >= 3 && j <= 5).length;
+    const fiveToNineJobs = jobsPerProfile.filter(j => j >= 5 && j <= 9).length;
+    const tenPlusJobs = jobsPerProfile.filter(j => j >= 10).length;
+
+    // Top 5 most common companies
+    const companyMap = {};
+    allJobs.forEach(job => {
+      const company = job.companyName;
+      companyMap[company] = (companyMap[company] || 0) + 1;
+    });
+
+    const top5Companies = Object.entries(companyMap)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([company, count]) => ({ company, count }));
+
+    // Job start dates by year (2015-2025)
+    const jobStartsByYear = {};
+    for (let year = 2015; year <= 2025; year++) {
+      jobStartsByYear[year] = allJobs.filter(job => {
+        const startYear = new Date(job.startDate).getFullYear();
+        return startYear === year;
+      }).length;
+    }
+
+    // Job start dates by month in 2026
+    const jobStartsByMonth2026 = {
+      January: 0,
+      February: 0,
+      March: 0,
+      April: 0,
+      May: 0,
+      June: 0,
+      July: 0,
+      August: 0,
+      September: 0,
+      October: 0,
+      November: 0,
+      December: 0,
+    };
+
+    allJobs.forEach(job => {
+      const startDate = new Date(job.startDate);
+      if (startDate.getFullYear() === 2026) {
+        const monthIndex = startDate.getMonth();
+        jobStartsByMonth2026[months[monthIndex]]++;
+      }
+    });
+
+    // Jobs related to degree
+    const jobsRelatedToDegree = allJobs.filter(job => job.relatedToDegree === true).length;
+    const jobsNotRelatedToDegree = allJobs.length - jobsRelatedToDegree;
+
+    // Sector breakdown
+    const sectorStats = {
+      'Technology & IT': allJobs.filter(job => job.sector === 'Technology & IT').length,
+      'Financial Services': allJobs.filter(job => job.sector === 'Financial Services').length,
+      'Consulting': allJobs.filter(job => job.sector === 'Consulting').length,
+      'Healthcare': allJobs.filter(job => job.sector === 'Healthcare').length,
+      'Education': allJobs.filter(job => job.sector === 'Education').length,
+      'Manufacturing': allJobs.filter(job => job.sector === 'Manufacturing').length,
+      'Retail & E-commerce': allJobs.filter(job => job.sector === 'Retail & E-commerce').length,
+      'Media & Entertainment': allJobs.filter(job => job.sector === 'Media & Entertainment').length,
+      'Other': allJobs.filter(job => job.sector === 'Other').length,
+    };
+
     const analytics = {
       totalProfiles: profiles.length,
       employment: {
@@ -340,6 +413,22 @@ exports.getAnalytics = async (req, res) => {
         relatedToDegree: coursesRelatedToDegree,
         notRelatedToDegree: coursesNotRelatedToDegree,
         totalCourses: allCourses.length,
+      },
+      employmentHistoryAnalytics: {
+        jobsPerProfile: {
+          oneJob,
+          oneToThreeJobs,
+          threeToFiveJobs,
+          fiveToNineJobs,
+          tenPlusJobs,
+        },
+        top5Companies,
+        jobStartsByYear,
+        jobStartsByMonth2026,
+        relatedToDegree: jobsRelatedToDegree,
+        notRelatedToDegree: jobsNotRelatedToDegree,
+        sectorBreakdown: sectorStats,
+        totalJobs: allJobs.length,
       },
     };
 
