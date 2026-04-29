@@ -613,9 +613,9 @@
             ['#4CAF50', '#E0E0E0'],
             totalEmployment);
 
-        // Sector Pie Chart
+        // Sector Pie Chart - filter out percentage keys
         const sectorLabels = Object.keys(data.employmentHistoryAnalytics.sectorBreakdown)
-            .filter(s => data.employmentHistoryAnalytics.sectorBreakdown[s] > 0);
+            .filter(s => !s.endsWith('Percentage') && data.employmentHistoryAnalytics.sectorBreakdown[s] > 0);
         const sectorValues = sectorLabels.map(s => data.employmentHistoryAnalytics.sectorBreakdown[s]);
         const sectorTotal = sectorValues.reduce((a, b) => a + b, 0);
         createPieChart('sectorChart', 'pie', sectorLabels, sectorValues, colorPalettes.sectors, sectorTotal);
@@ -654,8 +654,8 @@
             topFields.map(f => f.count),
             colorPalettes.bars);
 
-        // Degrees by Year Line Chart (NEW)
-        const degreeYears = Object.keys(data.degreeAnalytics.degreesByYear).sort();
+        // Degrees by Year Line Chart (NEW) - filter out percentage keys
+        const degreeYears = Object.keys(data.degreeAnalytics.degreesByYear).filter(y => !y.endsWith('Percentage')).sort();
         const degreeYearValues = degreeYears.map(y => data.degreeAnalytics.degreesByYear[y]);
         createLineChart('degreesByYearChart', degreeYears, degreeYearValues, colorPalettes.blue, 'Degrees', true);
 
@@ -700,13 +700,13 @@
             topOrgs.map(o => o.count),
             colorPalettes.bars);
 
-        // Certifications by Year Line Chart (NEW)
-        const certYears = Object.keys(data.certificationAnalytics.certificationsByYear).sort();
+        // Certifications by Year Line Chart (NEW) - filter out percentage keys
+        const certYears = Object.keys(data.certificationAnalytics.certificationsByYear).filter(y => !y.endsWith('Percentage')).sort();
         const certYearValues = certYears.map(y => data.certificationAnalytics.certificationsByYear[y]);
         createLineChart('certsByYearChart', certYears, certYearValues, colorPalettes.orange, 'Certifications', true);
 
-        // Certifications by Month 2026 Bar Chart (NEW)
-        const certMonths = Object.keys(data.certificationAnalytics.certificationsByMonth2026);
+        // Certifications by Month 2026 Bar Chart (NEW) - filter out percentage keys
+        const certMonths = Object.keys(data.certificationAnalytics.certificationsByMonth2026).filter(m => !m.endsWith('Percentage'));
         const certMonthValues = certMonths.map(m => data.certificationAnalytics.certificationsByMonth2026[m]);
         createBarChart('certsByMonth2026Chart', certMonths, certMonthValues, colorPalettes.bars, certMonthValues.reduce((a, b) => a + b, 0));
 
@@ -724,13 +724,13 @@
             licenseTypes.map(l => l.count),
             colorPalettes.bars);
 
-        // License Year Line Chart
-        const licenseYears = Object.keys(data.licenseAnalytics.licensesByYear).sort();
+        // License Year Line Chart - filter out percentage keys
+        const licenseYears = Object.keys(data.licenseAnalytics.licensesByYear).filter(y => !y.endsWith('Percentage')).sort();
         const licenseYearValues = licenseYears.map(y => data.licenseAnalytics.licensesByYear[y]);
         createLineChart('licenseYearChart', licenseYears, licenseYearValues, colorPalettes.pink, 'Licenses', true);
 
-        // Licenses by Month 2026 Bar Chart (NEW)
-        const licenseMonths = Object.keys(data.licenseAnalytics.licensesByMonth2026);
+        // Licenses by Month 2026 Bar Chart (NEW) - filter out percentage keys
+        const licenseMonths = Object.keys(data.licenseAnalytics.licensesByMonth2026).filter(m => !m.endsWith('Percentage'));
         const licenseMonthValues = licenseMonths.map(m => data.licenseAnalytics.licensesByMonth2026[m]);
         createBarChart('licensesByMonth2026Chart', licenseMonths, licenseMonthValues, colorPalettes.bars, licenseMonthValues.reduce((a, b) => a + b, 0));
 
@@ -741,13 +741,13 @@
             topProviders.map(p => p.count),
             colorPalettes.bars);
 
-        // Course Year Line Chart
-        const courseYears = Object.keys(data.courseAnalytics.coursesByYear).sort();
+        // Course Year Line Chart - filter out percentage keys
+        const courseYears = Object.keys(data.courseAnalytics.coursesByYear).filter(y => !y.endsWith('Percentage')).sort();
         const courseYearValues = courseYears.map(y => data.courseAnalytics.coursesByYear[y]);
         createLineChart('courseYearChart', courseYears, courseYearValues, colorPalettes.teal, 'Courses', true);
 
-        // Courses by Month 2026 Bar Chart (NEW)
-        const courseMonths = Object.keys(data.courseAnalytics.coursesByMonth2026);
+        // Courses by Month 2026 Bar Chart (NEW) - filter out percentage keys
+        const courseMonths = Object.keys(data.courseAnalytics.coursesByMonth2026).filter(m => !m.endsWith('Percentage'));
         const courseMonthValues = courseMonths.map(m => data.courseAnalytics.coursesByMonth2026[m]);
         createBarChart('coursesByMonth2026Chart', courseMonths, courseMonthValues, colorPalettes.bars, courseMonthValues.reduce((a, b) => a + b, 0));
 
@@ -773,18 +773,18 @@
         // Sector Pie Chart (for employment history section)
         createPieChart('sectorPieChart', 'pie', sectorLabels, sectorValues, colorPalettes.sectors, sectorTotal);
 
-        // Job Starts by Year Line Chart (NEW)
-        const jobStartYears = Object.keys(data.employmentHistoryAnalytics.jobStartsByYear).sort();
+        // Job Starts by Year Line Chart (NEW) - filter out percentage keys
+        const jobStartYears = Object.keys(data.employmentHistoryAnalytics.jobStartsByYear).filter(y => !y.endsWith('Percentage')).sort();
         const jobStartYearValues = jobStartYears.map(y => data.employmentHistoryAnalytics.jobStartsByYear[y]);
         createLineChart('jobStartsByYearChart', jobStartYears, jobStartYearValues, colorPalettes.purple, 'Job Starts', true);
 
-        // Job Starts by Month 2026 Bar Chart (NEW)
-        const jobStartMonths = Object.keys(data.employmentHistoryAnalytics.jobStartsByMonth2026);
+        // Job Starts by Month 2026 Bar Chart (NEW) - filter out percentage keys
+        const jobStartMonths = Object.keys(data.employmentHistoryAnalytics.jobStartsByMonth2026).filter(m => !m.endsWith('Percentage'));
         const jobStartMonthValues = jobStartMonths.map(m => data.employmentHistoryAnalytics.jobStartsByMonth2026[m]);
         createBarChart('jobStartsByMonth2026Chart', jobStartMonths, jobStartMonthValues, colorPalettes.bars, jobStartMonthValues.reduce((a, b) => a + b, 0));
 
-        // Location Bar Chart
-        const locations = Object.keys(data.locations).filter(l => data.locations[l] > 0);
+        // Location Bar Chart - filter out percentage keys
+        const locations = Object.keys(data.locations).filter(l => !l.endsWith('Percentage') && data.locations[l] > 0);
         const locationValues = locations.map(l => data.locations[l]);
         const locationTotal = locationValues.reduce((a, b) => a + b, 0);
         createBarChart('locationBarChart', locations, locationValues, colorPalettes.bars, locationTotal);
