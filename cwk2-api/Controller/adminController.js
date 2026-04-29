@@ -1,0 +1,117 @@
+const Account = require('../Models/accountModel');
+const Profile = require('../Models/profileModel');
+
+/**
+ * POST /admin/seed
+ * Seed database with alumni data from request body
+ * Expects: { "data": [ { account: {...}, profile: {...} }, ... ] }
+ * Warning: This will create accounts and profiles - use with caution
+ */
+exports.seedDatabase = async (req, res) => {
+  try {
+    console.log('[ADMIN] Starting database seed...');
+
+    // Get seed data from request body
+    const { data } = req.body;
+
+    if (!data || !Array.isArray(data)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Request body must contain a "data" array with alumni records',
+      });
+    }
+
+    let accountsCreated = 0;
+    let profilesCreated = 0;
+    let errors = [];
+
+    // Process each entry
+    for (const entry of data) {
+      try {
+        const { account: accountData, profile: profileData } = entry;
+
+        if (!accountData) {
+          errors.push('Entry missing account data');
+          continue;
+        }
+
+        // Check if account already exists
+        const existingAccount = await Account.findOne({ email: accountData.email });
+        if (existingAccount) {
+          errors.push(`Account with email ${accountData.email} already exists`);
+          continue;
+        }
+
+        // Create account
+        const account = await Account.create({
+          email: accountData.email,
+          password: accountData.password,
+          fullname: accountData.fullname,
+          isAlumni: accountData.isAlumni,
+          createdAt: new Date(accountData.createdAt),
+        });
+
+        accountsCreated++;
+        console.log(`[ADMIN] Created account: ${accountData.email}`);
+
+        // Create profile if alumni
+        if (accountData.isAlumni && profileData) {
+          try {
+            // Deep clone and clean all _id fields from nested arrays
+            const cleanProfileData = JSON.parse(JSON.stringify(profileData));
+            
+            const arraysToClean = ['degrees', 'certifications', 'licenses', 'courses', 'employmentHistory'];
+            
+            arraysToClean.forEach(arrayName => {
+              if (Array.isArray(cleanProfileData[arrayName])) {
+                cleanProfileData[arrayName] = cleanProfileData[arrayName].map(item => {
+                  const { _id, ...cleanItem } = item;
+                  return cleanItem;
+                });
+              }
+            });
+
+            console.log(`[ADMIN] Creating profile for ${accountData.fullname}`);
+            const profile = await Profile.create({
+              ...cleanProfileData,
+              account: account._id,
+            });
+
+            profilesCreated++;
+            console.log(`[ADMIN] Successfully created profile for: ${accountData.fullname}`);
+          } catch (profileErr) {
+            errors.push(`Profile creation failed for ${accountData.fullname}: ${profileErr.message}`);
+            console.error(`[ADMIN] Profile error for ${accountData.fullname}:`, profileErr);
+          }
+        }
+      } catch (err) {
+        errors.push(`Error processing entry: ${err.message}`);
+        console.error(`[ADMIN] Error: ${err.message}`);
+      }
+    }
+
+    // Return summary
+    const summary = {
+      success: true,
+      message: 'Database seeding completed',
+      stats: {
+        accountsCreated,
+        profilesCreated,
+        totalProcessed: data.length,
+        errors: errors.length,
+      },
+      errors: errors.length > 0 ? errors : null,
+    };
+
+    console.log('[ADMIN] Seeding complete:', summary.stats);
+    res.json(summary);
+
+  } catch (error) {
+    console.error('[ADMIN] Seeding failed:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Database seeding failed',
+      error: error.message,
+    });
+  }
+};

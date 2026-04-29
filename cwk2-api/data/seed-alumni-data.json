@@ -1,0 +1,1842 @@
+[
+  {
+    "account": {
+      "email": "james.anderson@westminster.ac.uk",
+      "password": "SecurePass123",
+      "fullname": "James Anderson",
+      "isAlumni": true,
+      "createdAt": "2023-06-15T10:30:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 2592000000,
+      "location": "London",
+      "biography": "Senior Software Engineer with 5+ years of experience in full-stack development.",
+      "linkedinUrl": "https://www.linkedin.com/in/jamesanderson",
+      "degrees": [
+        {
+          "_id": "deg_ja_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_ja_001",
+          "certificationName": "AWS Certified Solutions Architect",
+          "issuingOrganization": "Amazon Web Services",
+          "completionDate": "2021-03-15T00:00:00Z",
+          "typeOfCert": "Cloud",
+          "relatedToDegree": true
+        },
+        {
+          "_id": "cert_ja_002",
+          "certificationName": "Docker Certified Associate",
+          "issuingOrganization": "Docker",
+          "completionDate": "2022-08-10T00:00:00Z",
+          "typeOfCert": "DevOps",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_ja_001",
+          "courseName": "Advanced Kubernetes",
+          "provider": "Linux Academy",
+          "completionDate": "2023-02-28T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ],
+      "employmentHistory": [
+        {
+          "_id": "job_ja_001",
+          "jobTitle": "Senior Software Engineer",
+          "companyName": "TechCorp Solutions",
+          "sector": "Technology & IT",
+          "startDate": "2021-05-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        },
+        {
+          "_id": "job_ja_002",
+          "jobTitle": "Junior Developer",
+          "companyName": "StartupXYZ",
+          "sector": "Technology & IT",
+          "startDate": "2019-07-15T00:00:00Z",
+          "endDate": "2021-04-30T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "sarah.chen@westminster.ac.uk",
+      "password": "ChensPass456",
+      "fullname": "Sarah Chen",
+      "isAlumni": true,
+      "createdAt": "2023-07-22T14:45:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 5184000000,
+      "location": "London",
+      "biography": "Data Scientist passionate about machine learning and AI applications.",
+      "linkedinUrl": "https://www.linkedin.com/in/sarahchen",
+      "degrees": [
+        {
+          "_id": "deg_sc_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Master",
+          "fieldOfStudy": "Data Science",
+          "completionDate": "2021-09-15T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_sc_001",
+          "certificationName": "TensorFlow Developer Certificate",
+          "issuingOrganization": "Google",
+          "completionDate": "2022-11-20T00:00:00Z",
+          "typeOfCert": "Data Science",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_sc_001",
+          "courseName": "PyTorch for Deep Learning",
+          "provider": "Coursera",
+          "completionDate": "2023-05-10T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ],
+      "employmentHistory": [
+        {
+          "_id": "job_sc_001",
+          "jobTitle": "Data Scientist",
+          "companyName": "DataInsights Inc",
+          "sector": "Technology & IT",
+          "startDate": "2021-10-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "michael.smith@westminster.ac.uk",
+      "password": "MikePass789",
+      "fullname": "Michael Smith",
+      "isAlumni": true,
+      "createdAt": "2023-05-10T09:20:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 7776000000,
+      "location": "England",
+      "biography": "DevOps Engineer with expertise in cloud infrastructure and CI/CD pipelines.",
+      "linkedinUrl": "https://www.linkedin.com/in/michaelsmith",
+      "degrees": [
+        {
+          "_id": "deg_ms_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2018-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_ms_001",
+          "certificationName": "Certified Kubernetes Administrator",
+          "issuingOrganization": "Linux Foundation",
+          "completionDate": "2022-04-15T00:00:00Z",
+          "typeOfCert": "DevOps",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_ms_001",
+          "jobTitle": "DevOps Engineer",
+          "companyName": "CloudSystems Ltd",
+          "sector": "Technology & IT",
+          "startDate": "2020-03-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "emma.wilson@westminster.ac.uk",
+      "password": "EmmaPass012",
+      "fullname": "Emma Wilson",
+      "isAlumni": true,
+      "createdAt": "2023-08-05T16:15:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 3024000000,
+      "location": "London",
+      "biography": "Full-stack web developer specializing in React and Node.js.",
+      "linkedinUrl": "https://www.linkedin.com/in/emmawilson",
+      "degrees": [
+        {
+          "_id": "deg_ew_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Software Engineering",
+          "completionDate": "2020-06-15T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_ew_001",
+          "certificationName": "The Complete JavaScript Course 2023",
+          "issuingOrganization": "Udemy",
+          "completionDate": "2023-01-30T00:00:00Z",
+          "typeOfCert": "Software Development",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_ew_001",
+          "courseName": "React Advanced Patterns",
+          "provider": "Frontend Masters",
+          "completionDate": "2023-03-20T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ],
+      "employmentHistory": [
+        {
+          "_id": "job_ew_001",
+          "jobTitle": "Full-Stack Developer",
+          "companyName": "WebDev Studios",
+          "sector": "Technology & IT",
+          "startDate": "2020-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "david.brown@westminster.ac.uk",
+      "password": "DavidPass345",
+      "fullname": "David Brown",
+      "isAlumni": true,
+      "createdAt": "2023-04-18T11:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 2419200000,
+      "location": "UK",
+      "biography": "Cloud Architect with 7 years of experience in enterprise solutions.",
+      "linkedinUrl": "https://www.linkedin.com/in/davidbrown",
+      "degrees": [
+        {
+          "_id": "deg_db_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Information Technology",
+          "completionDate": "2017-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_db_001",
+          "certificationName": "AWS Certified Solutions Architect Professional",
+          "issuingOrganization": "Amazon Web Services",
+          "completionDate": "2022-06-10T00:00:00Z",
+          "typeOfCert": "Cloud",
+          "relatedToDegree": true
+        },
+        {
+          "_id": "cert_db_002",
+          "certificationName": "Microsoft Azure Administrator",
+          "issuingOrganization": "Microsoft",
+          "completionDate": "2023-02-14T00:00:00Z",
+          "typeOfCert": "Cloud",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_db_001",
+          "jobTitle": "Cloud Architect",
+          "companyName": "EnterpriseCloud Corp",
+          "sector": "Technology & IT",
+          "startDate": "2019-01-15T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "jessica.taylor@westminster.ac.uk",
+      "password": "JessPass678",
+      "fullname": "Jessica Taylor",
+      "isAlumni": true,
+      "createdAt": "2023-09-12T13:45:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 4838400000,
+      "location": "London",
+      "biography": "Software QA Engineer focused on test automation and quality assurance.",
+      "linkedinUrl": "https://www.linkedin.com/in/jessicataylor",
+      "degrees": [
+        {
+          "_id": "deg_jt_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_jt_001",
+          "certificationName": "ISTQB Certified Tester",
+          "issuingOrganization": "ISTQB",
+          "completionDate": "2021-09-05T00:00:00Z",
+          "typeOfCert": "Testing",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_jt_001",
+          "courseName": "Selenium WebDriver Mastery",
+          "provider": "Udemy",
+          "completionDate": "2023-04-15T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ],
+      "employmentHistory": [
+        {
+          "_id": "job_jt_001",
+          "jobTitle": "QA Automation Engineer",
+          "companyName": "QualityFirst Software",
+          "sector": "Technology & IT",
+          "startDate": "2019-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "robert.martin@westminster.ac.uk",
+      "password": "RobertPass901",
+      "fullname": "Robert Martin",
+      "isAlumni": true,
+      "createdAt": "2023-03-28T10:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 10368000000,
+      "location": "Scotland",
+      "biography": "Backend developer with expertise in Java and microservices architecture.",
+      "linkedinUrl": "https://www.linkedin.com/in/robertmartin",
+      "degrees": [
+        {
+          "_id": "deg_rm_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2018-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_rm_001",
+          "certificationName": "Oracle Certified Associate Java Programmer",
+          "issuingOrganization": "Oracle",
+          "completionDate": "2020-11-20T00:00:00Z",
+          "typeOfCert": "Software Development",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_rm_001",
+          "jobTitle": "Backend Engineer",
+          "companyName": "MicroServices Inc",
+          "sector": "Technology & IT",
+          "startDate": "2018-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "olivia.johnson@westminster.ac.uk",
+      "password": "OliviaPass234",
+      "fullname": "Olivia Johnson",
+      "isAlumni": true,
+      "createdAt": "2023-10-05T15:30:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 1814400000,
+      "location": "London",
+      "biography": "Machine Learning Engineer specializing in computer vision applications.",
+      "linkedinUrl": "https://www.linkedin.com/in/oliviajohnson",
+      "degrees": [
+        {
+          "_id": "deg_oj_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Master",
+          "fieldOfStudy": "Artificial Intelligence",
+          "completionDate": "2022-09-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_oj_001",
+          "certificationName": "OpenCV Expert",
+          "issuingOrganization": "Computer Vision Academy",
+          "completionDate": "2023-06-15T00:00:00Z",
+          "typeOfCert": "Data Science",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_oj_001",
+          "jobTitle": "ML Engineer",
+          "companyName": "VisionAI Labs",
+          "sector": "Technology & IT",
+          "startDate": "2022-10-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "christopher.lee@westminster.ac.uk",
+      "password": "ChrisPass567",
+      "fullname": "Christopher Lee",
+      "isAlumni": true,
+      "createdAt": "2023-02-14T12:20:00Z"
+    },
+    "profile": {
+      "employed": false,
+      "timeToFindJob": null,
+      "location": "England",
+      "biography": "Recent graduate seeking opportunities in software development.",
+      "linkedinUrl": "https://www.linkedin.com/in/christopherlee",
+      "degrees": [
+        {
+          "_id": "deg_cl_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2023-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_cl_001",
+          "courseName": "Complete Web Development Bootcamp",
+          "provider": "Udemy",
+          "completionDate": "2023-08-30T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ],
+      "employmentHistory": []
+    }
+  },
+  {
+    "account": {
+      "email": "sophia.martinez@westminster.ac.uk",
+      "password": "SophiaPass890",
+      "fullname": "Sophia Martinez",
+      "isAlumni": true,
+      "createdAt": "2023-11-08T14:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 2592000000,
+      "location": "London",
+      "biography": "Solutions Architect with 6 years of consulting experience.",
+      "linkedinUrl": "https://www.linkedin.com/in/sophiamartinez",
+      "degrees": [
+        {
+          "_id": "deg_sm_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Information Technology",
+          "completionDate": "2018-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_sm_001",
+          "certificationName": "AWS Solutions Architect Associate",
+          "issuingOrganization": "Amazon Web Services",
+          "completionDate": "2021-05-20T00:00:00Z",
+          "typeOfCert": "Cloud",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_sm_001",
+          "jobTitle": "Solutions Architect",
+          "companyName": "Consulting Partners Global",
+          "sector": "Consulting",
+          "startDate": "2018-07-15T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "henry.davies@westminster.ac.uk",
+      "password": "HenryPass123",
+      "fullname": "Henry Davies",
+      "isAlumni": true,
+      "createdAt": "2023-01-20T09:45:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 6048000000,
+      "location": "UK",
+      "biography": "Information Security Specialist with focus on cybersecurity.",
+      "linkedinUrl": "https://www.linkedin.com/in/henrydavies",
+      "degrees": [
+        {
+          "_id": "deg_hd_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Cybersecurity",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_hd_001",
+          "certificationName": "CompTIA Security+",
+          "issuingOrganization": "CompTIA",
+          "completionDate": "2020-10-15T00:00:00Z",
+          "typeOfCert": "Other",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_hd_001",
+          "jobTitle": "Security Specialist",
+          "companyName": "CyberDefense Ltd",
+          "sector": "Technology & IT",
+          "startDate": "2019-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "amelia.harris@westminster.ac.uk",
+      "password": "AmeliaPass456",
+      "fullname": "Amelia Harris",
+      "isAlumni": true,
+      "createdAt": "2023-12-01T11:15:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 3456000000,
+      "location": "London",
+      "biography": "UI/UX Designer transitioning into tech with coding skills.",
+      "linkedinUrl": "https://www.linkedin.com/in/ameliaharris",
+      "degrees": [
+        {
+          "_id": "deg_ah_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2020-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_ah_001",
+          "courseName": "User Experience Design Fundamentals",
+          "provider": "Interaction Design Foundation",
+          "completionDate": "2021-12-20T00:00:00Z",
+          "relatedToDegree": false
+        }
+      ],
+      "employmentHistory": [
+        {
+          "_id": "job_ah_001",
+          "jobTitle": "Product Designer",
+          "companyName": "DesignTech Studios",
+          "sector": "Technology & IT",
+          "startDate": "2020-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": false
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "nathan.clark@westminster.ac.uk",
+      "password": "NathanPass789",
+      "fullname": "Nathan Clark",
+      "isAlumni": true,
+      "createdAt": "2023-07-10T16:30:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 5184000000,
+      "location": "England",
+      "biography": "Database Administrator with specialization in SQL optimization.",
+      "linkedinUrl": "https://www.linkedin.com/in/nathanclark",
+      "degrees": [
+        {
+          "_id": "deg_nc_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Information Technology",
+          "completionDate": "2018-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_nc_001",
+          "certificationName": "Oracle Database Administrator Certified Associate",
+          "issuingOrganization": "Oracle",
+          "completionDate": "2021-03-10T00:00:00Z",
+          "typeOfCert": "Software Development",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_nc_001",
+          "jobTitle": "Database Administrator",
+          "companyName": "DataPro Solutions",
+          "sector": "Technology & IT",
+          "startDate": "2018-07-15T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "grace.robinson@westminster.ac.uk",
+      "password": "GracePass012",
+      "fullname": "Grace Robinson",
+      "isAlumni": true,
+      "createdAt": "2023-08-22T13:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 2678400000,
+      "location": "London",
+      "biography": "IT Project Manager with Agile and Scrum expertise.",
+      "linkedinUrl": "https://www.linkedin.com/in/gracerobinson",
+      "degrees": [
+        {
+          "_id": "deg_gr_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2017-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_gr_001",
+          "certificationName": "Certified Scrum Master",
+          "issuingOrganization": "Scrum Alliance",
+          "completionDate": "2020-09-15T00:00:00Z",
+          "typeOfCert": "Project Management",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_gr_001",
+          "jobTitle": "Project Manager",
+          "companyName": "Agile Innovations",
+          "sector": "Consulting",
+          "startDate": "2017-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "lucas.walker@westminster.ac.uk",
+      "password": "LucasPass345",
+      "fullname": "Lucas Walker",
+      "isAlumni": true,
+      "createdAt": "2023-09-30T10:45:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 4320000000,
+      "location": "UK",
+      "biography": "Mobile App Developer specializing in iOS and Android.",
+      "linkedinUrl": "https://www.linkedin.com/in/lucaswalker",
+      "degrees": [
+        {
+          "_id": "deg_lw_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Software Engineering",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_lw_001",
+          "certificationName": "Google Associate Android Developer",
+          "issuingOrganization": "Google",
+          "completionDate": "2021-07-20T00:00:00Z",
+          "typeOfCert": "Software Development",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_lw_001",
+          "jobTitle": "Mobile Developer",
+          "companyName": "AppWorks Studios",
+          "sector": "Technology & IT",
+          "startDate": "2019-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "isabella.wright@westminster.ac.uk",
+      "password": "IsabellaPass678",
+      "fullname": "Isabella Wright",
+      "isAlumni": true,
+      "createdAt": "2023-10-15T14:20:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 1728000000,
+      "location": "London",
+      "biography": "Systems Administrator managing enterprise infrastructure.",
+      "linkedinUrl": "https://www.linkedin.com/in/isabellawright",
+      "degrees": [
+        {
+          "_id": "deg_iw_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2018-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_iw_001",
+          "certificationName": "CompTIA A+",
+          "issuingOrganization": "CompTIA",
+          "completionDate": "2019-11-10T00:00:00Z",
+          "typeOfCert": "Other",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_iw_001",
+          "jobTitle": "Systems Administrator",
+          "companyName": "InfraStrong Corp",
+          "sector": "Technology & IT",
+          "startDate": "2018-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "oliver.young@westminster.ac.uk",
+      "password": "OliverPass901",
+      "fullname": "Oliver Young",
+      "isAlumni": true,
+      "createdAt": "2023-06-05T11:30:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 3888000000,
+      "location": "Scotland",
+      "biography": "IT Support Technician with strong customer service skills.",
+      "linkedinUrl": "https://www.linkedin.com/in/oliveryoung",
+      "degrees": [
+        {
+          "_id": "deg_oy_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Information Technology",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_oy_001",
+          "jobTitle": "IT Support Technician",
+          "companyName": "TechSupport Helpdesk",
+          "sector": "Technology & IT",
+          "startDate": "2019-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "charlotte.green@westminster.ac.uk",
+      "password": "CharlottePass234",
+      "fullname": "Charlotte Green",
+      "isAlumni": true,
+      "createdAt": "2023-04-12T15:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 5529600000,
+      "location": "London",
+      "biography": "Business Analyst with IT consulting background.",
+      "linkedinUrl": "https://www.linkedin.com/in/charlottegreen",
+      "degrees": [
+        {
+          "_id": "deg_cg_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Master",
+          "fieldOfStudy": "Business Technology",
+          "completionDate": "2020-09-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_cg_001",
+          "certificationName": "Business Analysis Professional",
+          "issuingOrganization": "IIBA",
+          "completionDate": "2021-06-15T00:00:00Z",
+          "typeOfCert": "Project Management",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_cg_001",
+          "jobTitle": "Business Analyst",
+          "companyName": "Digital Transformation Consulting",
+          "sector": "Consulting",
+          "startDate": "2020-10-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "william.hall@westminster.ac.uk",
+      "password": "WilliamPass567",
+      "fullname": "William Hall",
+      "isAlumni": true,
+      "createdAt": "2023-05-28T12:45:00Z"
+    },
+    "profile": {
+      "employed": false,
+      "timeToFindJob": null,
+      "location": "Ireland",
+      "biography": "Aspiring cybersecurity professional seeking first role.",
+      "linkedinUrl": "https://www.linkedin.com/in/williamhall",
+      "degrees": [
+        {
+          "_id": "deg_wh_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Cybersecurity",
+          "completionDate": "2023-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": []
+    }
+  },
+  {
+    "account": {
+      "email": "victoria.allen@westminster.ac.uk",
+      "password": "VictoriaPass890",
+      "fullname": "Victoria Allen",
+      "isAlumni": true,
+      "createdAt": "2023-03-10T09:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 7689600000,
+      "location": "London",
+      "biography": "IT Compliance Officer managing regulatory requirements.",
+      "linkedinUrl": "https://www.linkedin.com/in/victoriaallen",
+      "degrees": [
+        {
+          "_id": "deg_va_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Master",
+          "fieldOfStudy": "Information Security",
+          "completionDate": "2019-09-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_va_001",
+          "certificationName": "CISSP",
+          "issuingOrganization": "(ISC)²",
+          "completionDate": "2021-12-10T00:00:00Z",
+          "typeOfCert": "Other",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_va_001",
+          "jobTitle": "Compliance Officer",
+          "companyName": "Regulatory Solutions Ltd",
+          "sector": "Financial Services",
+          "startDate": "2020-01-15T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "ethan.king@westminster.ac.uk",
+      "password": "EthanPass123",
+      "fullname": "Ethan King",
+      "isAlumni": true,
+      "createdAt": "2023-11-20T10:30:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 2592000000,
+      "location": "England",
+      "biography": "Network Engineer specializing in enterprise networking.",
+      "linkedinUrl": "https://www.linkedin.com/in/ethanking",
+      "degrees": [
+        {
+          "_id": "deg_ek_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2018-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_ek_001",
+          "certificationName": "Cisco CCNA",
+          "issuingOrganization": "Cisco",
+          "completionDate": "2020-08-15T00:00:00Z",
+          "typeOfCert": "Other",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_ek_001",
+          "jobTitle": "Network Engineer",
+          "companyName": "NetworkPro Systems",
+          "sector": "Technology & IT",
+          "startDate": "2018-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "mia.scott@westminster.ac.uk",
+      "password": "MiaPass456",
+      "fullname": "Mia Scott",
+      "isAlumni": true,
+      "createdAt": "2023-07-08T14:15:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 3542400000,
+      "location": "London",
+      "biography": "Software Engineer focusing on backend infrastructure.",
+      "linkedinUrl": "https://www.linkedin.com/in/miascott",
+      "degrees": [
+        {
+          "_id": "deg_ms_002",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_ms_002",
+          "certificationName": "HashiCorp Certified: Terraform Associate",
+          "issuingOrganization": "HashiCorp",
+          "completionDate": "2022-10-20T00:00:00Z",
+          "typeOfCert": "DevOps",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_ms_002",
+          "jobTitle": "Backend Engineer",
+          "companyName": "InfraCode Labs",
+          "sector": "Technology & IT",
+          "startDate": "2019-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "alexander.white@westminster.ac.uk",
+      "password": "AlexanderPass789",
+      "fullname": "Alexander White",
+      "isAlumni": true,
+      "createdAt": "2023-02-01T11:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 8035200000,
+      "location": "UK",
+      "biography": "GIS Specialist with background in geospatial technology.",
+      "linkedinUrl": "https://www.linkedin.com/in/alexanderwhite",
+      "degrees": [
+        {
+          "_id": "deg_aw_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Geomatics Engineering",
+          "completionDate": "2016-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_aw_001",
+          "jobTitle": "GIS Specialist",
+          "companyName": "GeoSpatial Solutions",
+          "sector": "Technology & IT",
+          "startDate": "2016-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "sophie.davis@westminster.ac.uk",
+      "password": "SophiePass012",
+      "fullname": "Sophie Davis",
+      "isAlumni": true,
+      "createdAt": "2023-09-18T13:45:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 2419200000,
+      "location": "London",
+      "biography": "Data Engineer building ETL pipelines and data warehouses.",
+      "linkedinUrl": "https://www.linkedin.com/in/sophiedavis",
+      "degrees": [
+        {
+          "_id": "deg_sd_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2020-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_sd_001",
+          "certificationName": "Google Cloud Professional Data Engineer",
+          "issuingOrganization": "Google Cloud",
+          "completionDate": "2023-01-15T00:00:00Z",
+          "typeOfCert": "Data Science",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_sd_001",
+          "jobTitle": "Data Engineer",
+          "companyName": "DataWarehouse Corp",
+          "sector": "Technology & IT",
+          "startDate": "2020-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "jacob.harris@westminster.ac.uk",
+      "password": "JacobPass345",
+      "fullname": "Jacob Harris",
+      "isAlumni": true,
+      "createdAt": "2023-08-12T09:30:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 4752000000,
+      "location": "England",
+      "biography": "Blockchain Developer working on cryptocurrency projects.",
+      "linkedinUrl": "https://www.linkedin.com/in/jacobharris",
+      "degrees": [
+        {
+          "_id": "deg_jh_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_jh_001",
+          "certificationName": "Certified Blockchain Developer",
+          "issuingOrganization": "Udemy",
+          "completionDate": "2022-05-20T00:00:00Z",
+          "typeOfCert": "Software Development",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_jh_001",
+          "jobTitle": "Blockchain Developer",
+          "companyName": "CryptoTech Innovations",
+          "sector": "Technology & IT",
+          "startDate": "2019-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "abigail.jones@westminster.ac.uk",
+      "password": "AbigailPass678",
+      "fullname": "Abigail Jones",
+      "isAlumni": true,
+      "createdAt": "2023-10-25T16:20:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 1296000000,
+      "location": "London",
+      "biography": "Site Reliability Engineer managing production systems.",
+      "linkedinUrl": "https://www.linkedin.com/in/abigailjones",
+      "degrees": [
+        {
+          "_id": "deg_aj_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2021-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_aj_001",
+          "certificationName": "Kubernetes Application Developer",
+          "issuingOrganization": "Linux Foundation",
+          "completionDate": "2023-03-10T00:00:00Z",
+          "typeOfCert": "DevOps",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_aj_001",
+          "jobTitle": "Site Reliability Engineer",
+          "companyName": "Production Systems Inc",
+          "sector": "Technology & IT",
+          "startDate": "2021-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "benjamin.miller@westminster.ac.uk",
+      "password": "BenjaminPass901",
+      "fullname": "Benjamin Miller",
+      "isAlumni": true,
+      "createdAt": "2023-06-30T10:15:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 5443200000,
+      "location": "Scotland",
+      "biography": "IT Director overseeing technology strategy for enterprise.",
+      "linkedinUrl": "https://www.linkedin.com/in/benjaminmiller",
+      "degrees": [
+        {
+          "_id": "deg_bm_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Master",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2012-09-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_bm_001",
+          "certificationName": "ITIL Foundation",
+          "issuingOrganization": "Axelos",
+          "completionDate": "2015-04-20T00:00:00Z",
+          "typeOfCert": "Project Management",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_bm_001",
+          "jobTitle": "IT Director",
+          "companyName": "Enterprise Tech Corp",
+          "sector": "Technology & IT",
+          "startDate": "2012-10-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "hannah.taylor@westminster.ac.uk",
+      "password": "HannahPass234",
+      "fullname": "Hannah Taylor",
+      "isAlumni": true,
+      "createdAt": "2023-04-07T14:50:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 3110400000,
+      "location": "London",
+      "biography": "Software Developer with expertise in Python and Django.",
+      "linkedinUrl": "https://www.linkedin.com/in/hannahtaylor",
+      "degrees": [
+        {
+          "_id": "deg_ht_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Software Engineering",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_ht_001",
+          "courseName": "Django for Beginners to Advanced",
+          "provider": "Real Python",
+          "completionDate": "2021-10-30T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ],
+      "employmentHistory": [
+        {
+          "_id": "job_ht_001",
+          "jobTitle": "Python Developer",
+          "companyName": "PythonWorks",
+          "sector": "Technology & IT",
+          "startDate": "2019-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "mason.anderson@westminster.ac.uk",
+      "password": "MasonPass567",
+      "fullname": "Mason Anderson",
+      "isAlumni": true,
+      "createdAt": "2023-11-02T12:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 6912000000,
+      "location": "UK",
+      "biography": "Architect designing large-scale system solutions.",
+      "linkedinUrl": "https://www.linkedin.com/in/masonanderson",
+      "degrees": [
+        {
+          "_id": "deg_ma_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Master",
+          "fieldOfStudy": "Computer Architecture",
+          "completionDate": "2017-09-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_ma_001",
+          "certificationName": "TOGAF 9 Certified",
+          "issuingOrganization": "The Open Group",
+          "completionDate": "2019-06-15T00:00:00Z",
+          "typeOfCert": "Other",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_ma_001",
+          "jobTitle": "Solutions Architect",
+          "companyName": "ArchitectureDesigns Ltd",
+          "sector": "Consulting",
+          "startDate": "2017-10-15T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "lily.turner@westminster.ac.uk",
+      "password": "LilyPass890",
+      "fullname": "Lily Turner",
+      "isAlumni": true,
+      "createdAt": "2023-03-19T15:30:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 2332800000,
+      "location": "London",
+      "biography": "Frontend Developer specializing in responsive web design.",
+      "linkedinUrl": "https://www.linkedin.com/in/lilyturner",
+      "degrees": [
+        {
+          "_id": "deg_lt_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Web Development",
+          "completionDate": "2020-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_lt_001",
+          "courseName": "CSS Grid and Flexbox Masterclass",
+          "provider": "Udemy",
+          "completionDate": "2021-08-30T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ],
+      "employmentHistory": [
+        {
+          "_id": "job_lt_001",
+          "jobTitle": "Frontend Developer",
+          "companyName": "WebDesign Studio",
+          "sector": "Technology & IT",
+          "startDate": "2020-08-15T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "logan.clark@westminster.ac.uk",
+      "password": "LoganPass123",
+      "fullname": "Logan Clark",
+      "isAlumni": true,
+      "createdAt": "2023-07-14T11:45:00Z"
+    },
+    "profile": {
+      "employed": false,
+      "timeToFindJob": null,
+      "location": "England",
+      "biography": "Recent graduate looking for entry-level tech positions.",
+      "linkedinUrl": "https://www.linkedin.com/in/loganclark",
+      "degrees": [
+        {
+          "_id": "deg_lc_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2023-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [
+        {
+          "_id": "course_lc_001",
+          "courseName": "The Web Developer Bootcamp 2023",
+          "provider": "Udemy",
+          "completionDate": "2023-09-15T00:00:00Z",
+          "relatedToDegree": true
+        }
+      ],
+      "employmentHistory": []
+    }
+  },
+  {
+    "account": {
+      "email": "chloe.watson@westminster.ac.uk",
+      "password": "ChloePass456",
+      "fullname": "Chloe Watson",
+      "isAlumni": true,
+      "createdAt": "2023-05-24T13:20:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 4233600000,
+      "location": "London",
+      "biography": "UX Researcher focused on user-centered design methodology.",
+      "linkedinUrl": "https://www.linkedin.com/in/chloewatson",
+      "degrees": [
+        {
+          "_id": "deg_cw_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Psychology",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_cw_001",
+          "certificationName": "UX Research Certification",
+          "issuingOrganization": "Nielsen Norman Group",
+          "completionDate": "2021-11-15T00:00:00Z",
+          "typeOfCert": "Other",
+          "relatedToDegree": false
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_cw_001",
+          "jobTitle": "UX Researcher",
+          "companyName": "UserCentric Labs",
+          "sector": "Technology & IT",
+          "startDate": "2019-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": false
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "noah.johnson@westminster.ac.uk",
+      "password": "NoahPass789",
+      "fullname": "Noah Johnson",
+      "isAlumni": true,
+      "createdAt": "2023-09-08T10:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 5875200000,
+      "location": "Scotland",
+      "biography": "Data Analyst providing business intelligence insights.",
+      "linkedinUrl": "https://www.linkedin.com/in/noahjohnson",
+      "degrees": [
+        {
+          "_id": "deg_nj_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Statistics",
+          "completionDate": "2018-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_nj_001",
+          "certificationName": "Google Data Analytics Certificate",
+          "issuingOrganization": "Google",
+          "completionDate": "2021-05-20T00:00:00Z",
+          "typeOfCert": "Data Science",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_nj_001",
+          "jobTitle": "Data Analyst",
+          "companyName": "Business Intelligence Corp",
+          "sector": "Financial Services",
+          "startDate": "2018-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "emily.brown@westminster.ac.uk",
+      "password": "EmilyPass012",
+      "fullname": "Emily Brown",
+      "isAlumni": true,
+      "createdAt": "2023-08-31T14:35:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 3196800000,
+      "location": "London",
+      "biography": "Information Architect designing content structures.",
+      "linkedinUrl": "https://www.linkedin.com/in/emilybrown",
+      "degrees": [
+        {
+          "_id": "deg_eb_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2020-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_eb_001",
+          "jobTitle": "Information Architect",
+          "companyName": "Content Design Ltd",
+          "sector": "Media & Entertainment",
+          "startDate": "2020-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "aiden.martinez@westminster.ac.uk",
+      "password": "AidenPass345",
+      "fullname": "Aiden Martinez",
+      "isAlumni": true,
+      "createdAt": "2023-10-10T09:15:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 2764800000,
+      "location": "England",
+      "biography": "IT Vendor Manager overseeing third-party relationships.",
+      "linkedinUrl": "https://www.linkedin.com/in/aidenmartinez",
+      "degrees": [
+        {
+          "_id": "deg_am_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Business Information Systems",
+          "completionDate": "2018-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_am_001",
+          "jobTitle": "Vendor Manager",
+          "companyName": "Enterprise Procurement",
+          "sector": "Consulting",
+          "startDate": "2018-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "zoe.ryan@westminster.ac.uk",
+      "password": "ZoePass678",
+      "fullname": "Zoe Ryan",
+      "isAlumni": true,
+      "createdAt": "2023-06-16T16:00:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 1469000000,
+      "location": "London",
+      "biography": "Principal Engineer leading technical teams and innovation.",
+      "linkedinUrl": "https://www.linkedin.com/in/zoeryan",
+      "degrees": [
+        {
+          "_id": "deg_zr_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Master",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2014-09-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_zr_001",
+          "certificationName": "AWS Certified Solutions Architect Professional",
+          "issuingOrganization": "Amazon Web Services",
+          "completionDate": "2018-12-10T00:00:00Z",
+          "typeOfCert": "Cloud",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_zr_001",
+          "jobTitle": "Principal Engineer",
+          "companyName": "Tech Innovation Hub",
+          "sector": "Technology & IT",
+          "startDate": "2014-10-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "ryan.phillips@westminster.ac.uk",
+      "password": "RyanPass901",
+      "fullname": "Ryan Phillips",
+      "isAlumni": true,
+      "createdAt": "2023-04-29T12:45:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 7344000000,
+      "location": "UK",
+      "biography": "IT Outsourcing Manager handling vendor relations.",
+      "linkedinUrl": "https://www.linkedin.com/in/ryanphillips",
+      "degrees": [
+        {
+          "_id": "deg_rp_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Information Technology",
+          "completionDate": "2015-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_rp_001",
+          "certificationName": "PMP",
+          "issuingOrganization": "PMI",
+          "completionDate": "2017-11-15T00:00:00Z",
+          "typeOfCert": "Project Management",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_rp_001",
+          "jobTitle": "Outsourcing Manager",
+          "companyName": "Global IT Services",
+          "sector": "Consulting",
+          "startDate": "2015-08-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "lucy.cooper@westminster.ac.uk",
+      "password": "LucyPass234",
+      "fullname": "Lucy Cooper",
+      "isAlumni": true,
+      "createdAt": "2023-07-21T11:10:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 3542400000,
+      "location": "London",
+      "biography": "Security Engineer implementing enterprise security frameworks.",
+      "linkedinUrl": "https://www.linkedin.com/in/lucycooper",
+      "degrees": [
+        {
+          "_id": "deg_lc_002",
+          "institutionName": "University of Westminster",
+          "degreeType": "Bachelor",
+          "fieldOfStudy": "Cybersecurity",
+          "completionDate": "2019-06-20T00:00:00Z"
+        }
+      ],
+      "certifications": [
+        {
+          "_id": "cert_lc_002",
+          "certificationName": "CompTIA Security+",
+          "issuingOrganization": "CompTIA",
+          "completionDate": "2021-01-10T00:00:00Z",
+          "typeOfCert": "Other",
+          "relatedToDegree": true
+        }
+      ],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_lc_002",
+          "jobTitle": "Security Engineer",
+          "companyName": "EnterpriseSecure Ltd",
+          "sector": "Technology & IT",
+          "startDate": "2019-09-01T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  },
+  {
+    "account": {
+      "email": "jack.richardson@westminster.ac.uk",
+      "password": "JackPass567",
+      "fullname": "Jack Richardson",
+      "isAlumni": true,
+      "createdAt": "2023-09-25T15:20:00Z"
+    },
+    "profile": {
+      "employed": true,
+      "timeToFindJob": 4924800000,
+      "location": "England",
+      "biography": "Research and Development Engineer in emerging technologies.",
+      "linkedinUrl": "https://www.linkedin.com/in/jackrichardson",
+      "degrees": [
+        {
+          "_id": "deg_jr_001",
+          "institutionName": "University of Westminster",
+          "degreeType": "PhD",
+          "fieldOfStudy": "Computer Science",
+          "completionDate": "2018-09-20T00:00:00Z"
+        }
+      ],
+      "certifications": [],
+      "licenses": [],
+      "courses": [],
+      "employmentHistory": [
+        {
+          "_id": "job_jr_001",
+          "jobTitle": "R&D Engineer",
+          "companyName": "Innovation Labs",
+          "sector": "Technology & IT",
+          "startDate": "2018-10-15T00:00:00Z",
+          "currentlyEmployed": true,
+          "relatedToDegree": true
+        }
+      ]
+    }
+  }
+]

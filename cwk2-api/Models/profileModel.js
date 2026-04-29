@@ -13,7 +13,7 @@ const ProfileSchema = new mongoose.Schema(
     timeToFindJob: { type: Number },
     location: {
       type: String,
-      enum: ['London', 'England', 'UK', 'Scotland', 'Ireland', 'Asia', 'Africa', 'South America', 'North America', 'Europe', "Other"],
+      enum: ['London', 'England', 'UK', 'Scotland', 'Ireland', 'Asia', 'Africa', 'South America', 'North America', 'Europe', 'Other'],
     },
     biography: {
       type: String,
@@ -28,21 +28,21 @@ const ProfileSchema = new mongoose.Schema(
       type: String,
       validate: {
         validator: function (v) {
-          return !v || /^https?:\/\/(www\.)?linkedin\.com\/.+/.test(v); // Makes sure site is on linkedin
+          return !v || /^https?:\/\/(www\.)?linkedin\.com\/.+/.test(v);
         },
         message: 'Please provide a valid LinkedIn URL',
       },
     },
     degrees: [
       {
-        _id: { type: String, required: true, unique: true },
+        _id: mongoose.Schema.Types.ObjectId,
         institutionName: {
           type: String,
           required: [true, 'Institution name is required'],
         },
         degreeType: {
           type: String,
-          enum: ['Bachelor', 'Master', 'PhD', 'Diploma', 'Certificate'],
+          enum: ['Bachelor', 'Master', 'PhD', 'Diploma', 'Certificate', 'Other'],
           required: [true, 'Degree type is required'],
         },
         fieldOfStudy: {
@@ -53,7 +53,7 @@ const ProfileSchema = new mongoose.Schema(
           type: String,
           validate: {
             validator: function (v) {
-              return !v || /^https?:\/\/.+/.test(v); // makes sure site has https
+              return !v || /^https?:\/\/.+/.test(v);
             },
             message: 'Please provide a valid URL',
           },
@@ -70,7 +70,7 @@ const ProfileSchema = new mongoose.Schema(
     ],
     certifications: [
       {
-        _id: { type: String, required: true, unique: true },
+        _id: mongoose.Schema.Types.ObjectId,
         certificationName: {
           type: String,
           required: [true, 'Certification name is required'],
@@ -105,7 +105,7 @@ const ProfileSchema = new mongoose.Schema(
     ],
     licenses: [
       {
-        _id: { type: String, required: true, unique: true },
+        _id: mongoose.Schema.Types.ObjectId,
         licenseName: {
           type: String,
           required: [true, 'License name is required'],
@@ -141,7 +141,7 @@ const ProfileSchema = new mongoose.Schema(
     ],
     courses: [
       {
-        _id: { type: String, required: true, unique: true },
+        _id: mongoose.Schema.Types.ObjectId,
         courseName: {
           type: String,
           required: [true, 'Course name is required'],
@@ -171,7 +171,7 @@ const ProfileSchema = new mongoose.Schema(
     ],
     employmentHistory: [
       {
-        _id: { type: String, required: true, unique: true },
+        _id: mongoose.Schema.Types.ObjectId,
         jobTitle: {
           type: String,
           required: [true, 'Job title is required'],
@@ -259,4 +259,3 @@ const ProfileSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('Profile', ProfileSchema);
-

@@ -1,0 +1,43 @@
+<h1>Create Account</h1>
+<p class="subtitle">Join to access alumni statistics</p>
+
+<% if (error) { %>
+    <div class="error"><%= error %></div>
+<% } %>
+
+<form method="POST" action="/account/signup">
+    <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" required placeholder="John Doe">
+    </div>
+
+    <div class="form-group">
+        <label for="email">Westminster Email</label>
+        <input type="email" id="email" name="email" required placeholder="john.doe@westminster.ac.uk" pattern="[a-zA-Z0-9._%+-]+@westminster\.ac\.uk">
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Min. 10 chars with uppercase and number">
+    </div>
+
+    <div class="form-group account-type">
+        <label>Account Type</label>
+        <div class="radio-group">
+            <div class="radio-option">
+                <input type="radio" id="cwk2" name="isAlumni" value="off" checked>
+                <label for="cwk2">CWK2 (View Analytics)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="cwk1" name="isAlumni" value="on">
+                <label for="cwk1">CWK1 (Alumni - Edit Profile)</label>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn">Sign Up</button>
+</form>
+
+<div class="link">
+    Already have an account? <a href="/account/login">Login here</a>
+</div>

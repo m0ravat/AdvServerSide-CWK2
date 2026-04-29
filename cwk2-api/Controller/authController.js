@@ -1,0 +1,145 @@
+const Account = require('../Models/accountModel');
+
+/**
+ * GET /account/signup
+ * Render signup form
+ */
+exports.signupPage = (req, res) => {
+  res.render('signup', { error: null, user: null });
+};
+
+/**
+ * POST /account/signup
+ * Handle signup form submission
+ */
+exports.signup = async (req, res) => {
+  try {
+    const { email, password, fullname, isAlumni } = req.body;
+
+    // Validate inputs
+    if (!email || !password || !fullname) {
+      return res.render('signup', { error: 'All fields are required', user: null });
+    }
+
+    const existingUser = await Account.findOne({ email });
+    if (existingUser) {
+      return res.render('signup', { error: 'An account with this email already exists', user: null });
+    }
+
+    // Convert isAlumni to boolean
+    const alumniStatus = isAlumni === 'on' || isAlumni === true;
+
+    const user = await Account.create({ 
+      email, 
+      password, 
+      fullname,
+      isAlumni: alumniStatus
+    });
+
+    // Store session and permissions
+    req.session.userId = user._id;
+    req.session.isAlumni = user.isAlumni;
+    
+    // Set permissions based on alumni status
+    if (user.isAlumni) {
+      req.session.permissions = ['read:analytics', 'read:profile', 'write:profile'];
+    } else {
+      req.session.permissions = ['read:analytics'];
+    }
+
+    res.redirect('/account/dashboard');
+
+  } catch (err) {
+    res.render('signup', { error: err.message, user: null });
+  }
+};
+
+/**
+ * GET /account/login
+ * Render login form
+ */
+exports.loginPage = (req, res) => {
+  res.render('login', { error: null, user: null });
+};
+
+/**
+ * POST /account/login
+ * Handle login form submission
+ */
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validate inputs
+    if (!email || !password) {
+      return res.render('login', { error: 'Email and password are required', user: null });
+    }
+
+    // Get user WITH password
+    const user = await Account.findOne({ email }).select('+password');
+
+    if (!user) {
+      return res.render('login', { error: 'Invalid email or password', user: null });
+    }
+
+    const isMatch = await user.matchPassword(password);
+
+    if (!isMatch) {
+      return res.render('login', { error: 'Invalid email or password', user: null });
+    }
+
+    // Check if user is alumni - redirect to cwk1 frontend not available page
+    if (user.isAlumni) {
+      return res.render('alumni-redirect', { user: null });
+    }
+
+    // Store session and permissions for non-alumni
+    req.session.userId = user._id;
+    req.session.isAlumni = user.isAlumni;
+    req.session.permissions = ['read:analytics'];
+
+    res.redirect('/account/dashboard');
+
+  } catch (err) {
+    res.render('login', { error: err.message, user: null });
+  }
+};
+
+/**
+ * GET /account/dashboard
+ * Display authenticated user dashboard
+ */
+exports.dashboard = async (req, res) => {
+  try {
+    const user = await Account.findById(req.session.userId);
+
+    if (!user) {
+      req.session.destroy();
+      return res.redirect('/account/login');
+    }
+
+    res.render('dashboard', { 
+      user,
+      isAlumni: req.session.isAlumni || false,
+      permissions: req.session.permissions || []
+    });
+
+  } catch (err) {
+    res.render('dashboard', { error: err.message, user: null });
+  }
+};
+
+/**
+ * GET /account/logout
+ * Log out user and destroy session
+ */
+exports.logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.render('dashboard', { error: 'Logout failed' });
+    }
+
+    res.clearCookie('connect.sid'); // default session cookie name
+    res.redirect('/account/login');
+  });
+};
