@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 const accountRouter = require("./routes/accountRoutes");
+const analyticsRouter = require("./routes/analyticsRoutes");
 
 const session = require('express-session');
 
@@ -43,6 +44,7 @@ mongoose.connect(dbURI)
 
 // Routes
 app.use("/account", accountRouter);
+app.use("/api/analytics", analyticsRouter);
 
 // Home redirect to login
 app.get('/', (req, res) => {
