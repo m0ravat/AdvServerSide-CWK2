@@ -6,6 +6,7 @@ const expressLayouts = require('express-ejs-layouts');
 const accountRouter = require("./routes/accountRoutes");
 const analyticsRouter = require("./routes/analyticsRoutes");
 const profileRouter = require("./routes/profileRoutes");
+const adminRouter = require("./routes/adminRoutes");
 
 const session = require('express-session');
 
@@ -54,6 +55,9 @@ app.use("/cwk1/profile", profileRouter);
 
 // CWK2 routes - Analytics and dashboard
 app.use("/cwk2/analytics", analyticsRouter);
+
+// Admin routes - Database seeding and management
+app.use("/admin", adminRouter);
 
 // Home redirect to login
 app.get('/', (req, res) => {
