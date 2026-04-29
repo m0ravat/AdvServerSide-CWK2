@@ -1,9 +1,11 @@
 const Profile = require('../Models/profileModel');
+const Account = require('../Models/accountModel');
 const { addAnalyticsPercentages } = require('../Middleware/analyticsPercentageMiddleware');
 
 exports.getAnalytics = async (req, res) => {
   try {
     const profiles = await Profile.find();
+    const accounts = await Account.find();
 
     // Employment stats
     const employed = profiles.filter(p => p.employed === true).length;
@@ -360,7 +362,69 @@ exports.getAnalytics = async (req, res) => {
       'Other': allJobs.filter(job => job.sector === 'Other').length,
     };
 
+    // KEY METRICS CALCULATIONS
+    const totalUsers = accounts.length;
+    const totalAlumni = accounts.filter(a => a.isAlumni === true).length;
+
+    // Alumni year-over-year calculation
+    const lastYearDate = new Date();
+    lastYearDate.setFullYear(lastYearDate.getFullYear() - 1);
+    const alumniLastYear = accounts.filter(
+      a => a.isAlumni === true && a.createdAt < lastYearDate
+    ).length;
+    const alumniThisYear = accounts.filter(
+      a => a.isAlumni === true && a.createdAt >= lastYearDate
+    ).length;
+    const alumniYoyChange = alumniLastYear > 0 
+      ? Math.round(((alumniThisYear - alumniLastYear) / alumniLastYear) * 100) 
+      : 0;
+
+    // Critical Skills Gap (% of profiles with certs/licenses/courses related to degree)
+    const profilesWithSkillsRelated = profiles.filter(p => {
+      const totalCredentialsRelated = (
+        p.certifications.filter(c => c.relatedToDegree).length +
+        p.licenses.filter(l => l.relatedToDegree).length +
+        p.courses.filter(c => c.relatedToDegree).length
+      );
+      return totalCredentialsRelated > 0;
+    }).length;
+
+    const skillsRelatedPercentage = profiles.length > 0 
+      ? Math.round((profilesWithSkillsRelated / profiles.length) * 100)
+      : 0;
+
+    let skillsGapStatus = 'green';
+    let skillsGapMessage = 'Low Risk';
+    if (skillsRelatedPercentage < 40) {
+      skillsGapStatus = 'red';
+      skillsGapMessage = 'High Risk';
+    } else if (skillsRelatedPercentage < 60) {
+      skillsGapStatus = 'amber';
+      skillsGapMessage = 'Medium Risk';
+    }
+
+    // Employment rate
+    const employmentRate = profiles.length > 0
+      ? Math.round((employed / profiles.length) * 100)
+      : 0;
+
+    // Average time to employment (in days)
+    const jobProfiles = profiles.filter(p => p.timeToFindJob && p.timeToFindJob > 0);
+    const averageTimeToEmployment = jobProfiles.length > 0
+      ? Math.round(jobProfiles.reduce((sum, p) => sum + (p.timeToFindJob / DAY_MS), 0) / jobProfiles.length)
+      : 0;
+
     const analytics = {
+      keyMetrics: {
+        totalUsers,
+        totalAlumni,
+        alumniYoyChange,
+        skillsGapStatus,
+        skillsGapMessage,
+        skillsRelatedPercentage,
+        employmentRate,
+        averageTimeToEmployment,
+      },
       totalProfiles: profiles.length,
       employment: {
         employed,

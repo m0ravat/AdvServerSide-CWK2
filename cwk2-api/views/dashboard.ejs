@@ -4,6 +4,104 @@
 <p class="subtitle">Alumni Statistics and Insights</p>
 
 <style>
+    .key-metrics {
+        background: white;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        padding: 30px;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+    }
+
+    .key-metrics h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 20px;
+    }
+
+    .key-metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .key-metric-item {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 6px;
+        border-left: 4px solid #667eea;
+    }
+
+    .key-metric-item label {
+        display: block;
+        font-size: 12px;
+        color: #666;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .key-metric-item .value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .key-metric-item .subtext {
+        font-size: 13px;
+        color: #888;
+        margin-top: 5px;
+    }
+
+    .yoy-positive {
+        color: #27ae60;
+    }
+
+    .yoy-negative {
+        color: #e74c3c;
+    }
+
+    .yoy-neutral {
+        color: #95a5a6;
+    }
+
+    .skills-gap-red {
+        border-left-color: #e74c3c;
+    }
+
+    .skills-gap-amber {
+        border-left-color: #f39c12;
+    }
+
+    .skills-gap-green {
+        border-left-color: #27ae60;
+    }
+
+    .skills-gap-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 5px;
+    }
+
+    .skills-gap-badge.red {
+        background: #ffe6e6;
+        color: #e74c3c;
+    }
+
+    .skills-gap-badge.amber {
+        background: #fff4e6;
+        color: #f39c12;
+    }
+
+    .skills-gap-badge.green {
+        background: #e6f7ed;
+        color: #27ae60;
+    }
+
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -151,6 +249,52 @@
 
     function displayAnalytics(data) {
         let html = '';
+
+        // KEY METRICS SECTION
+        html += '<div class="key-metrics">';
+        html += '<h2>Key Performance Indicators</h2>';
+        html += '<div class="key-metrics-grid">';
+        
+        // Total Users
+        html += '<div class="key-metric-item">';
+        html += '<label>Total Users</label>';
+        html += '<div class="value">' + data.keyMetrics.totalUsers + '</div>';
+        html += '</div>';
+
+        // Total Alumni with YoY Change
+        html += '<div class="key-metric-item">';
+        html += '<label>Total Alumni</label>';
+        html += '<div class="value">' + data.keyMetrics.totalAlumni + '</div>';
+        const yoyClass = data.keyMetrics.alumniYoyChange > 0 ? 'yoy-positive' : 
+                        data.keyMetrics.alumniYoyChange < 0 ? 'yoy-negative' : 'yoy-neutral';
+        const yoySymbol = data.keyMetrics.alumniYoyChange > 0 ? '+' : '';
+        html += '<div class="subtext"><span class="' + yoyClass + '">' + yoySymbol + data.keyMetrics.alumniYoyChange + '% YoY</span></div>';
+        html += '</div>';
+
+        // Employment Rate
+        html += '<div class="key-metric-item">';
+        html += '<label>Employment Rate</label>';
+        html += '<div class="value">' + data.keyMetrics.employmentRate + '%</div>';
+        html += '</div>';
+
+        // Average Time to Employment
+        html += '<div class="key-metric-item">';
+        html += '<label>Avg. Time to Employment</label>';
+        html += '<div class="value">' + data.keyMetrics.averageTimeToEmployment + '</div>';
+        html += '<div class="subtext">days</div>';
+        html += '</div>';
+
+        // Skills Gap Risk
+        const gapClass = 'skills-gap-' + data.keyMetrics.skillsGapStatus;
+        html += '<div class="key-metric-item ' + gapClass + '">';
+        html += '<label>Skills Gap Risk</label>';
+        html += '<div class="value">' + data.keyMetrics.skillsRelatedPercentage + '%</div>';
+        html += '<div class="subtext">with relevant credentials</div>';
+        html += '<div class="skills-gap-badge ' + data.keyMetrics.skillsGapStatus + '">' + data.keyMetrics.skillsGapMessage + '</div>';
+        html += '</div>';
+
+        html += '</div>';
+        html += '</div>';
 
         // Employment Stats
         html += '<div class="section">';

@@ -33,6 +33,10 @@ const AccountSchema = new mongoose.Schema(
       default: false,
       required: true
     },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
  
     // Reference to Profile if database to be adapated as a pure NoSQL Database
     profile: {
