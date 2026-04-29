@@ -1,4 +1,5 @@
 const Profile = require('../Models/profileModel');
+const { addAnalyticsPercentages } = require('../Middleware/analyticsPercentageMiddleware');
 
 exports.getAnalytics = async (req, res) => {
   try {
@@ -432,7 +433,10 @@ exports.getAnalytics = async (req, res) => {
       },
     };
 
-    res.json(analytics);
+    // Add percentages to analytics data
+    const analyticsWithPercentages = addAnalyticsPercentages(analytics);
+
+    res.json(analyticsWithPercentages);
   } catch (error) {
     console.error('Analytics Error:', error);
     res.status(500).json({ message: 'Error fetching analytics', error: error.message });
