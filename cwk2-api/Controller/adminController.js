@@ -48,7 +48,7 @@ exports.seedDatabase = async (req, res) => {
         if (accountData.isAlumni && profileData) {
           const profile = await Profile.create({
             ...profileData,
-            accountId: account._id,
+            account: account._id,
           });
 
           profilesCreated++;
