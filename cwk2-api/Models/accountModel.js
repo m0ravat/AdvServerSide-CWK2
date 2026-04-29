@@ -24,7 +24,15 @@ const AccountSchema = new mongoose.Schema(
             'Password must contain at least one uppercase letter and one number'
         ]
     },
-    fullname: {type: String, required: [true, "Full name is required"]},
+    fullname: {
+      type: String,
+      required: [true, "Full name is required"]
+    },
+    isAlumni: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
  
     // Reference to Profile if database to be adapated as a pure NoSQL Database
     profile: {

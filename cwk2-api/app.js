@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const accountRouter = require("./routes/accountRoutes");
 const analyticsRouter = require("./routes/analyticsRoutes");
+const profileRouter = require("./routes/profileRoutes");
 
 const session = require('express-session');
 
@@ -42,9 +43,14 @@ mongoose.connect(dbURI)
     });
   });
 
-// Routes
+// Routes - Shared auth at root level
 app.use("/account", accountRouter);
-app.use("/api/analytics", analyticsRouter);
+
+// CWK1 routes - Alumni profile management
+app.use("/cwk1/profile", profileRouter);
+
+// CWK2 routes - Analytics and dashboard
+app.use("/cwk2/analytics", analyticsRouter);
 
 // Home redirect to login
 app.get('/', (req, res) => {

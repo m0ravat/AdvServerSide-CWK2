@@ -206,7 +206,7 @@
     <script>
         async function loadAnalytics() {
             try {
-                const response = await fetch('/api/analytics/stats');
+                const response = await fetch('/cwk2/analytics/stats');
                 const data = await response.json();
 
                 if (response.ok) {
