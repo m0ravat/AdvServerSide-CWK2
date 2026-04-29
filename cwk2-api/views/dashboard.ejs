@@ -103,31 +103,31 @@
 
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin-bottom: 40px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
     }
 
     .stat-card {
         background: white;
         border: 1px solid #ddd;
         border-radius: 8px;
-        padding: 20px;
+        padding: 18px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     }
 
     .stat-card h3 {
-        font-size: 14px;
+        font-size: 13px;
         color: #666;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         font-weight: 500;
     }
 
     .stat-card .value {
-        font-size: 32px;
+        font-size: 28px;
         font-weight: 600;
         color: #667eea;
-        margin-bottom: 5px;
+        margin-bottom: 4px;
     }
 
     .stat-card .percentage {
@@ -175,7 +175,11 @@
     }
 
     .chart-container.large {
-        height: 400px;
+        height: 420px;
+    }
+
+    .chart-container.xlarge {
+        height: 500px;
     }
 
     .two-column {
@@ -232,9 +236,15 @@
         margin-bottom: 20px;
     }
 
+    .subsection {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
     @media (max-width: 768px) {
         .stats-grid {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         }
 
         .section {
@@ -265,7 +275,7 @@
 
     // Distinctive color palettes for different chart types
     const colorPalettes = {
-        // Vibrant colors for pie/doughnut charts (like the examples)
+        // Vibrant colors for pie/doughnut charts
         sectors: [
             '#4285F4', // Blue - Technology & IT
             '#34A853', // Green - Financial Services
@@ -277,25 +287,15 @@
             '#E91E8C', // Pink - Media & Entertainment
             '#9E9E9E'  // Gray - Other
         ],
-        // For job roles doughnut
-        roles: [
-            '#4285F4', // Software Engineer
-            '#34A853', // Data Analyst
-            '#FBBC04', // DevOps Engineer
-            '#9C27B0', // Full Stack Developer
-            '#00BCD4', // Cloud Engineer
-            '#E91E8C', // Software Developer
-            '#FF9800', // Business Analyst
-            '#009688', // Data Scientist
-            '#673AB7', // IT Consultant
-            '#607D8B'  // Other Roles
-        ],
-        // For certification trends (line/area chart)
-        certTrends: [
-            '#FF9800', // AWS - Orange
-            '#2196F3', // Docker/Kubernetes - Blue
-            '#009688', // Azure - Teal
-            '#4CAF50'  // Agile/Scrum - Green
+        // For certification types
+        certTypes: [
+            '#4285F4', // Cloud
+            '#34A853', // DevOps
+            '#FBBC04', // Software Development
+            '#9C27B0', // Data Science
+            '#00BCD4', // Project Management
+            '#E91E8C', // Testing
+            '#607D8B'  // Other
         ],
         // For degree types
         degrees: [
@@ -303,7 +303,8 @@
             '#34A853', // Master
             '#FBBC04', // PhD
             '#EA4335', // Diploma
-            '#9C27B0'  // Certificate
+            '#9C27B0', // Certificate
+            '#607D8B'  // Other
         ],
         // For time to job (gradient feel)
         timeToJob: [
@@ -314,7 +315,7 @@
             '#FF9800',
             '#F44336'  // Red - slow
         ],
-        // For bar charts
+        // For bar charts (varied)
         bars: [
             '#4285F4',
             '#5C6BC0',
@@ -327,33 +328,21 @@
             '#FFA726',
             '#FFCA28'
         ],
-        // Single gradient palette
-        gradient: ['#667eea', '#764ba2', '#a855f7', '#d946ef', '#ec4899', '#f97316', '#fb923c', '#fbbf24']
-    };
-
-    // Animation configurations
-    const animations = {
-        pie: {
-            animateRotate: true,
-            animateScale: true,
-            duration: 1500,
-            easing: 'easeOutQuart'
-        },
-        bar: {
-            duration: 1200,
-            easing: 'easeOutBounce',
-            delay: function(context) {
-                return context.dataIndex * 100;
-            }
-        },
-        line: {
-            duration: 2000,
-            easing: 'easeInOutQuart'
-        },
-        radar: {
-            duration: 1500,
-            easing: 'easeOutQuad'
-        }
+        // Multi-line chart colors
+        multiLine: [
+            '#FF9800', // Orange
+            '#2196F3', // Blue
+            '#4CAF50', // Green
+            '#9C27B0', // Purple
+            '#E91E8C'  // Pink
+        ],
+        // Single color variants
+        blue: '#4285F4',
+        green: '#34A853',
+        pink: '#E91E8C',
+        orange: '#FF9800',
+        purple: '#9C27B0',
+        teal: '#009688'
     };
 
     async function loadAnalytics() {
@@ -377,13 +366,11 @@
         html += '<h2>Key Performance Indicators</h2>';
         html += '<div class="key-metrics-grid">';
         
-        // Total Users
         html += '<div class="key-metric-item">';
         html += '<label>Total Users</label>';
         html += '<div class="value">' + data.keyMetrics.totalUsers + '</div>';
         html += '</div>';
 
-        // Total Alumni with YoY Change
         html += '<div class="key-metric-item">';
         html += '<label>Total Alumni</label>';
         html += '<div class="value">' + data.keyMetrics.totalAlumni + '</div>';
@@ -393,20 +380,17 @@
         html += '<div class="subtext"><span class="' + yoyClass + '">' + yoySymbol + data.keyMetrics.alumniYoyChange + '% YoY</span></div>';
         html += '</div>';
 
-        // Employment Rate
         html += '<div class="key-metric-item">';
         html += '<label>Employment Rate</label>';
         html += '<div class="value">' + data.keyMetrics.employmentRate + '%</div>';
         html += '</div>';
 
-        // Average Time to Employment
         html += '<div class="key-metric-item">';
         html += '<label>Avg. Time to Employment</label>';
         html += '<div class="value">' + data.keyMetrics.averageTimeToEmployment + '</div>';
         html += '<div class="subtext">days</div>';
         html += '</div>';
 
-        // Skills Gap Risk
         const gapClass = 'skills-gap-' + data.keyMetrics.skillsGapStatus;
         html += '<div class="key-metric-item ' + gapClass + '">';
         html += '<label>Skills Gap Risk</label>';
@@ -418,7 +402,7 @@
         html += '</div>';
         html += '</div>';
 
-        // Employment Stats with Pie and Doughnut
+        // EMPLOYMENT OVERVIEW
         html += '<div class="section">';
         html += '<h2>Employment Overview</h2>';
         html += '<div class="stats-grid">';
@@ -431,7 +415,17 @@
         html += '</div>';
         html += '</div>';
 
-        // Degree Stats
+        // LINKEDIN STATS (NEW)
+        html += '<div class="section">';
+        html += '<h2>LinkedIn Presence</h2>';
+        html += '<div class="stats-grid">';
+        html += createStatCard('Has LinkedIn', data.linkedIn.hasLinkedIn, data.linkedIn.hasLinkedIn + data.linkedIn.noLinkedIn);
+        html += createStatCard('No LinkedIn', data.linkedIn.noLinkedIn, data.linkedIn.hasLinkedIn + data.linkedIn.noLinkedIn);
+        html += '</div>';
+        html += '<div class="chart-container small"><canvas id="linkedInChart"></canvas></div>';
+        html += '</div>';
+
+        // EDUCATION OVERVIEW
         html += '<div class="section">';
         html += '<h2>Education Overview</h2>';
         html += '<div class="stats-grid">';
@@ -442,14 +436,19 @@
         html += '</div>';
         html += '<div class="chart-container"><canvas id="degreeCountChart"></canvas></div>';
 
-        // Degree Types and Fields
         html += '<div class="two-column">';
         html += '<div><h3>Degree Types</h3><div class="chart-container"><canvas id="degreeTypeChart"></canvas></div></div>';
         html += '<div><h3>Top Fields of Study</h3><p class="description">Most popular academic disciplines among alumni.</p><div class="chart-container"><canvas id="topFieldsChart"></canvas></div></div>';
         html += '</div>';
+
+        // Degrees by Year (NEW)
+        html += '<div class="subsection"><h3>Degrees Completed by Year</h3>';
+        html += '<p class="description">Annual trend of degree completions (2015-2025).</p>';
+        html += '<div class="chart-container"><canvas id="degreesByYearChart"></canvas></div>';
+        html += '</div>';
         html += '</div>';
 
-        // Time to Find Job
+        // TIME TO FIND JOB
         html += '<div class="section">';
         html += '<h2>Time to Find Employment</h2>';
         html += '<div class="stats-grid">';
@@ -463,69 +462,142 @@
         html += '<div class="chart-container"><canvas id="timeToJobChart"></canvas></div>';
         html += '</div>';
 
-        // Certifications with Area Chart for Trends
+        // CREDENTIALS OVERVIEW (NEW)
+        html += '<div class="section">';
+        html += '<h2>Credentials Overview</h2>';
+        html += '<p class="description">Combined certifications, courses, and licenses per profile.</p>';
+        html += '<div class="stats-grid">';
+        html += createStatCard('No Credentials', data.credentials.noCertifications, data.totalProfiles);
+        html += createStatCard('1-5 Credentials', data.credentials.oneToFiveCertifications, data.totalProfiles);
+        html += createStatCard('6-10 Credentials', data.credentials.sixToTenCertifications, data.totalProfiles);
+        html += createStatCard('10+ Credentials', data.credentials.tenPlusCertifications, data.totalProfiles);
+        html += '</div>';
+        html += '<div class="chart-container"><canvas id="credentialsChart"></canvas></div>';
+        html += '</div>';
+
+        // CERTIFICATIONS
         html += '<div class="section">';
         html += '<h2>Certifications Analytics</h2>';
+        html += '<div class="stats-grid">';
+        html += createStatCard('Total Certifications', data.certificationAnalytics.totalCertifications, data.certificationAnalytics.totalCertifications);
+        html += createStatCard('Related to Degree', data.certificationAnalytics.relatedToDegree, data.certificationAnalytics.totalCertifications);
+        html += createStatCard('Not Related', data.certificationAnalytics.notRelatedToDegree, data.certificationAnalytics.totalCertifications);
+        html += '</div>';
+
         html += '<div class="two-column">';
         html += '<div><h3>Certification Types</h3><p class="description">Breakdown by certification category.</p><div class="chart-container"><canvas id="certTypeChart"></canvas></div></div>';
         html += '<div><h3>Top Certifying Organizations</h3><p class="description">Organizations issuing the most certifications.</p><div class="chart-container"><canvas id="topOrgChart"></canvas></div></div>';
         html += '</div>';
-        html += '<div style="margin-top: 20px;"><h3>Certification Statistics</h3>';
-        const certStats = {};
-        certStats['Related to Degree'] = [data.certificationAnalytics.relatedToDegree, data.certificationAnalytics.totalCertifications];
-        certStats['Not Related to Degree'] = [data.certificationAnalytics.notRelatedToDegree, data.certificationAnalytics.totalCertifications];
-        html += createDataRows(certStats);
-        html += '</div></div>';
 
-        // Licenses with Line Chart
+        // Certifications by Year (NEW)
+        html += '<div class="subsection"><h3>Certifications by Year</h3>';
+        html += '<p class="description">Annual trend of certifications obtained (2015-2025).</p>';
+        html += '<div class="chart-container"><canvas id="certsByYearChart"></canvas></div>';
+        html += '</div>';
+
+        // Certifications by Month 2026 (NEW)
+        html += '<div class="subsection"><h3>Certifications by Month (2026)</h3>';
+        html += '<p class="description">Monthly breakdown of certifications in the current year.</p>';
+        html += '<div class="chart-container"><canvas id="certsByMonth2026Chart"></canvas></div>';
+        html += '</div>';
+        html += '</div>';
+
+        // LICENSES
         html += '<div class="section">';
         html += '<h2>Licenses Analytics</h2>';
-        html += '<h3>Licenses Acquired Over Time</h3>';
-        html += '<p class="description">Trend of professional licenses obtained by year.</p>';
-        html += '<div class="chart-container"><canvas id="licenseYearChart"></canvas></div>';
-        html += '<div style="margin-top: 20px;"><h3>License Statistics</h3>';
-        const licenseStats = {};
-        licenseStats['Related to Degree'] = [data.licenseAnalytics.relatedToDegree, data.licenseAnalytics.totalLicenses];
-        licenseStats['Not Related to Degree'] = [data.licenseAnalytics.notRelatedToDegree, data.licenseAnalytics.totalLicenses];
-        html += createDataRows(licenseStats);
-        html += '</div></div>';
+        html += '<div class="stats-grid">';
+        html += createStatCard('Total Licenses', data.licenseAnalytics.totalLicenses, data.licenseAnalytics.totalLicenses);
+        html += createStatCard('Related to Degree', data.licenseAnalytics.relatedToDegree, data.licenseAnalytics.totalLicenses);
+        html += createStatCard('Not Related', data.licenseAnalytics.notRelatedToDegree, data.licenseAnalytics.totalLicenses);
+        html += '</div>';
 
-        // Courses with Area Chart
+        html += '<div class="two-column">';
+        html += '<div><h3>Top Issuing Bodies</h3><p class="description">Organizations issuing the most licenses.</p><div class="chart-container"><canvas id="topIssuingBodiesChart"></canvas></div></div>';
+        html += '<div><h3>License Types</h3><p class="description">Breakdown by license name.</p><div class="chart-container"><canvas id="licenseTypeChart"></canvas></div></div>';
+        html += '</div>';
+
+        // Licenses by Year (existing)
+        html += '<div class="subsection"><h3>Licenses Acquired Over Time</h3>';
+        html += '<p class="description">Trend of professional licenses obtained by year (2015-2025).</p>';
+        html += '<div class="chart-container"><canvas id="licenseYearChart"></canvas></div>';
+        html += '</div>';
+
+        // Licenses by Month 2026 (NEW)
+        html += '<div class="subsection"><h3>Licenses by Month (2026)</h3>';
+        html += '<p class="description">Monthly breakdown of licenses in the current year.</p>';
+        html += '<div class="chart-container"><canvas id="licensesByMonth2026Chart"></canvas></div>';
+        html += '</div>';
+        html += '</div>';
+
+        // COURSES
         html += '<div class="section">';
         html += '<h2>Courses Analytics</h2>';
-        html += '<h3>Courses Completed Over Time</h3>';
-        html += '<p class="description">Trend of professional development courses by year.</p>';
-        html += '<div class="chart-container"><canvas id="courseYearChart"></canvas></div>';
-        html += '<div style="margin-top: 20px;"><h3>Course Statistics</h3>';
-        const courseStats = {};
-        courseStats['Related to Degree'] = [data.courseAnalytics.relatedToDegree, data.courseAnalytics.totalCourses];
-        courseStats['Not Related to Degree'] = [data.courseAnalytics.notRelatedToDegree, data.courseAnalytics.totalCourses];
-        html += createDataRows(courseStats);
-        html += '</div></div>';
+        html += '<div class="stats-grid">';
+        html += createStatCard('Total Courses', data.courseAnalytics.totalCourses, data.courseAnalytics.totalCourses);
+        html += createStatCard('Related to Degree', data.courseAnalytics.relatedToDegree, data.courseAnalytics.totalCourses);
+        html += createStatCard('Not Related', data.courseAnalytics.notRelatedToDegree, data.courseAnalytics.totalCourses);
+        html += '</div>';
 
-        // Employment History with multiple chart types
+        // Top Providers (NEW)
+        html += '<h3>Top Course Providers</h3>';
+        html += '<p class="description">Platforms and organizations providing the most courses.</p>';
+        html += '<div class="chart-container"><canvas id="topProvidersChart"></canvas></div>';
+
+        // Courses by Year (existing)
+        html += '<div class="subsection"><h3>Courses Completed Over Time</h3>';
+        html += '<p class="description">Trend of professional development courses by year (2015-2025).</p>';
+        html += '<div class="chart-container"><canvas id="courseYearChart"></canvas></div>';
+        html += '</div>';
+
+        // Courses by Month 2026 (NEW)
+        html += '<div class="subsection"><h3>Courses by Month (2026)</h3>';
+        html += '<p class="description">Monthly breakdown of courses completed in the current year.</p>';
+        html += '<div class="chart-container"><canvas id="coursesByMonth2026Chart"></canvas></div>';
+        html += '</div>';
+        html += '</div>';
+
+        // EMPLOYMENT HISTORY
         html += '<div class="section">';
-        html += '<h2>Employment History</h2>';
+        html += '<h2>Employment History Analytics</h2>';
+        html += '<div class="stats-grid">';
+        html += createStatCard('Total Jobs', data.employmentHistoryAnalytics.totalJobs, data.employmentHistoryAnalytics.totalJobs);
+        html += createStatCard('Related to Degree', data.employmentHistoryAnalytics.relatedToDegree, data.employmentHistoryAnalytics.totalJobs);
+        html += createStatCard('Not Related', data.employmentHistoryAnalytics.notRelatedToDegree, data.employmentHistoryAnalytics.totalJobs);
+        html += '</div>';
+
         html += '<h3>Jobs Per Alumni Profile</h3>';
         html += '<div class="chart-container"><canvas id="jobsPerProfileChart"></canvas></div>';
-        html += '<div style="margin-top: 30px;"><h3>Top Employers</h3>';
-        html += '<p class="description">Organizations employing the most alumni.</p>';
-        html += '<div class="chart-container large"><canvas id="topCompaniesChart"></canvas></div>';
-        html += '</div></div>';
 
-        // Locations with Radar Chart
+        html += '<div class="two-column">';
+        html += '<div><h3>Top Employers</h3><p class="description">Organizations employing the most alumni.</p><div class="chart-container large"><canvas id="topCompaniesChart"></canvas></div></div>';
+        html += '<div><h3>Sector Distribution</h3><p class="description">Jobs distributed across industry sectors.</p><div class="chart-container large"><canvas id="sectorPieChart"></canvas></div></div>';
+        html += '</div>';
+
+        // Job Starts by Year (NEW)
+        html += '<div class="subsection"><h3>Job Starts by Year</h3>';
+        html += '<p class="description">Trend of new job positions started each year (2015-2025).</p>';
+        html += '<div class="chart-container"><canvas id="jobStartsByYearChart"></canvas></div>';
+        html += '</div>';
+
+        // Job Starts by Month 2026 (NEW)
+        html += '<div class="subsection"><h3>Job Starts by Month (2026)</h3>';
+        html += '<p class="description">Monthly breakdown of job starts in the current year.</p>';
+        html += '<div class="chart-container"><canvas id="jobStartsByMonth2026Chart"></canvas></div>';
+        html += '</div>';
+        html += '</div>';
+
+        // LOCATIONS
         html += '<div class="section">';
         html += '<h2>Alumni Locations</h2>';
         html += '<p class="description">Geographic distribution of alumni network.</p>';
         html += '<div class="two-column">';
-        html += '<div><h3>Location Distribution (Bar)</h3><div class="chart-container"><canvas id="locationBarChart"></canvas></div></div>';
-        html += '<div><h3>Location Distribution (Radar)</h3><div class="chart-container"><canvas id="locationRadarChart"></canvas></div></div>';
+        html += '<div><h3>Location Distribution (Bar)</h3><div class="chart-container large"><canvas id="locationBarChart"></canvas></div></div>';
+        html += '<div><h3>Location Distribution (Radar)</h3><div class="chart-container large"><canvas id="locationRadarChart"></canvas></div></div>';
         html += '</div>';
         html += '</div>';
 
         document.getElementById('analytics-content').innerHTML = html;
 
-        // Initialize all charts
         setTimeout(() => {
             initializeCharts(data);
         }, 0);
@@ -541,12 +613,19 @@
             ['#4CAF50', '#E0E0E0'],
             totalEmployment);
 
-        // Sector Pie Chart (like the example)
+        // Sector Pie Chart
         const sectorLabels = Object.keys(data.employmentHistoryAnalytics.sectorBreakdown)
             .filter(s => data.employmentHistoryAnalytics.sectorBreakdown[s] > 0);
         const sectorValues = sectorLabels.map(s => data.employmentHistoryAnalytics.sectorBreakdown[s]);
         const sectorTotal = sectorValues.reduce((a, b) => a + b, 0);
         createPieChart('sectorChart', 'pie', sectorLabels, sectorValues, colorPalettes.sectors, sectorTotal);
+
+        // LinkedIn Chart (NEW)
+        createPieChart('linkedInChart', 'doughnut',
+            ['Has LinkedIn', 'No LinkedIn'],
+            [data.linkedIn.hasLinkedIn, data.linkedIn.noLinkedIn],
+            ['#0A66C2', '#E0E0E0'],
+            data.linkedIn.hasLinkedIn + data.linkedIn.noLinkedIn);
 
         // Degree Count Bar Chart
         createBarChart('degreeCountChart', 
@@ -556,23 +635,29 @@
             data.totalProfiles);
 
         // Degree Type Doughnut Chart
-        const degreeTypeLabels = ['Bachelor', 'Master', 'PhD', 'Diploma', 'Certificate'];
+        const degreeTypeLabels = ['Bachelor', 'Master', 'PhD', 'Diploma', 'Certificate', 'Other'];
         const degreeTypeValues = [
             data.degreeAnalytics.degreeTypeBreakdown.bachelor, 
             data.degreeAnalytics.degreeTypeBreakdown.master, 
             data.degreeAnalytics.degreeTypeBreakdown.phd, 
             data.degreeAnalytics.degreeTypeBreakdown.diploma,
-            data.degreeAnalytics.degreeTypeBreakdown.certificate
+            data.degreeAnalytics.degreeTypeBreakdown.certificate,
+            data.degreeAnalytics.degreeTypeBreakdown.other || 0
         ];
         const degreeTypeTotal = degreeTypeValues.reduce((a, b) => a + b, 0);
         createPieChart('degreeTypeChart', 'doughnut', degreeTypeLabels, degreeTypeValues, colorPalettes.degrees, degreeTypeTotal);
 
         // Top Fields Horizontal Bar Chart
-        const topFields = data.degreeAnalytics.topFieldsOfStudy.slice(0, 8);
+        const topFields = data.degreeAnalytics.topFieldsOfStudy.slice(0, 10);
         createHorizontalBarChart('topFieldsChart', 
             topFields.map(f => f.field), 
             topFields.map(f => f.count),
             colorPalettes.bars);
+
+        // Degrees by Year Line Chart (NEW)
+        const degreeYears = Object.keys(data.degreeAnalytics.degreesByYear).sort();
+        const degreeYearValues = degreeYears.map(y => data.degreeAnalytics.degreesByYear[y]);
+        createLineChart('degreesByYearChart', degreeYears, degreeYearValues, colorPalettes.blue, 'Degrees', true);
 
         // Time to Job Bar Chart
         const timeLabels = ['30 Days or Less', '30D - 6M', '6M - 1Y', '1 - 2Y', '2 - 5Y', '5+ Y'];
@@ -586,11 +671,27 @@
         ];
         createBarChart('timeToJobChart', timeLabels, timeValues, colorPalettes.timeToJob, data.totalProfiles);
 
+        // Credentials Chart (NEW)
+        createBarChart('credentialsChart',
+            ['No Credentials', '1-5 Credentials', '6-10 Credentials', '10+ Credentials'],
+            [data.credentials.noCertifications, data.credentials.oneToFiveCertifications, 
+             data.credentials.sixToTenCertifications, data.credentials.tenPlusCertifications],
+            colorPalettes.bars.slice(0, 4),
+            data.totalProfiles);
+
         // Certification Type Doughnut Chart
-        const certTypeLabels = Object.keys(data.certificationAnalytics.certificationTypeBreakdown);
-        const certTypeValues = Object.values(data.certificationAnalytics.certificationTypeBreakdown);
+        const certTypeLabels = ['Cloud', 'DevOps', 'Software Development', 'Data Science', 'Project Management', 'Testing', 'Other'];
+        const certTypeValues = [
+            data.certificationAnalytics.certificationTypeBreakdown.Cloud || 0,
+            data.certificationAnalytics.certificationTypeBreakdown.DevOps || 0,
+            data.certificationAnalytics.certificationTypeBreakdown.SoftwareDevelopment || 0,
+            data.certificationAnalytics.certificationTypeBreakdown.DataScience || 0,
+            data.certificationAnalytics.certificationTypeBreakdown.ProjectManagement || 0,
+            data.certificationAnalytics.certificationTypeBreakdown.Testing || 0,
+            data.certificationAnalytics.certificationTypeBreakdown.Other || 0
+        ];
         const certTypeTotal = certTypeValues.reduce((a, b) => a + b, 0);
-        createPieChart('certTypeChart', 'doughnut', certTypeLabels, certTypeValues, colorPalettes.roles, certTypeTotal);
+        createPieChart('certTypeChart', 'doughnut', certTypeLabels, certTypeValues, colorPalettes.certTypes, certTypeTotal);
 
         // Top Organizations Horizontal Bar Chart
         const topOrgs = data.certificationAnalytics.top5Organizations;
@@ -599,15 +700,56 @@
             topOrgs.map(o => o.count),
             colorPalettes.bars);
 
-        // License Year Line Chart with Fill
+        // Certifications by Year Line Chart (NEW)
+        const certYears = Object.keys(data.certificationAnalytics.certificationsByYear).sort();
+        const certYearValues = certYears.map(y => data.certificationAnalytics.certificationsByYear[y]);
+        createLineChart('certsByYearChart', certYears, certYearValues, colorPalettes.orange, 'Certifications', true);
+
+        // Certifications by Month 2026 Bar Chart (NEW)
+        const certMonths = Object.keys(data.certificationAnalytics.certificationsByMonth2026);
+        const certMonthValues = certMonths.map(m => data.certificationAnalytics.certificationsByMonth2026[m]);
+        createBarChart('certsByMonth2026Chart', certMonths, certMonthValues, colorPalettes.bars, certMonthValues.reduce((a, b) => a + b, 0));
+
+        // Top Issuing Bodies Horizontal Bar (NEW)
+        const topBodies = data.licenseAnalytics.top5IssuingBodies;
+        createHorizontalBarChart('topIssuingBodiesChart',
+            topBodies.map(b => b.issuingBody),
+            topBodies.map(b => b.count),
+            colorPalettes.bars);
+
+        // License Type Chart (NEW)
+        const licenseTypes = data.licenseAnalytics.licenseTypeBreakdown.slice(0, 8);
+        createHorizontalBarChart('licenseTypeChart',
+            licenseTypes.map(l => l.licenseType),
+            licenseTypes.map(l => l.count),
+            colorPalettes.bars);
+
+        // License Year Line Chart
         const licenseYears = Object.keys(data.licenseAnalytics.licensesByYear).sort();
         const licenseYearValues = licenseYears.map(y => data.licenseAnalytics.licensesByYear[y]);
-        createLineChart('licenseYearChart', licenseYears, licenseYearValues, '#E91E8C', 'Licenses', true);
+        createLineChart('licenseYearChart', licenseYears, licenseYearValues, colorPalettes.pink, 'Licenses', true);
 
-        // Course Year Line Chart with Fill
+        // Licenses by Month 2026 Bar Chart (NEW)
+        const licenseMonths = Object.keys(data.licenseAnalytics.licensesByMonth2026);
+        const licenseMonthValues = licenseMonths.map(m => data.licenseAnalytics.licensesByMonth2026[m]);
+        createBarChart('licensesByMonth2026Chart', licenseMonths, licenseMonthValues, colorPalettes.bars, licenseMonthValues.reduce((a, b) => a + b, 0));
+
+        // Top Course Providers Horizontal Bar (NEW)
+        const topProviders = data.courseAnalytics.top5Providers;
+        createHorizontalBarChart('topProvidersChart',
+            topProviders.map(p => p.provider),
+            topProviders.map(p => p.count),
+            colorPalettes.bars);
+
+        // Course Year Line Chart
         const courseYears = Object.keys(data.courseAnalytics.coursesByYear).sort();
         const courseYearValues = courseYears.map(y => data.courseAnalytics.coursesByYear[y]);
-        createLineChart('courseYearChart', courseYears, courseYearValues, '#2196F3', 'Courses', true);
+        createLineChart('courseYearChart', courseYears, courseYearValues, colorPalettes.teal, 'Courses', true);
+
+        // Courses by Month 2026 Bar Chart (NEW)
+        const courseMonths = Object.keys(data.courseAnalytics.coursesByMonth2026);
+        const courseMonthValues = courseMonths.map(m => data.courseAnalytics.coursesByMonth2026[m]);
+        createBarChart('coursesByMonth2026Chart', courseMonths, courseMonthValues, colorPalettes.bars, courseMonthValues.reduce((a, b) => a + b, 0));
 
         // Jobs Per Profile Bar Chart
         const jobLabels = ['1 Job', '1-3 Jobs', '3-5 Jobs', '5-9 Jobs', '10+ Jobs'];
@@ -619,14 +761,27 @@
             data.employmentHistoryAnalytics.jobsPerProfile.tenPlusJobs
         ];
         const jobsTotal = jobValues.reduce((a, b) => a + b, 0);
-        createBarChart('jobsPerProfileChart', jobLabels, jobValues, colorPalettes.gradient.slice(0, 5), jobsTotal);
+        createBarChart('jobsPerProfileChart', jobLabels, jobValues, colorPalettes.bars.slice(0, 5), jobsTotal);
 
-        // Top Companies Horizontal Bar Chart (like the example)
+        // Top Companies Horizontal Bar Chart
         const topCompanies = data.employmentHistoryAnalytics.top5Companies;
         createHorizontalBarChart('topCompaniesChart', 
             topCompanies.map(c => c.company), 
             topCompanies.map(c => c.count),
-            ['#4285F4']); // Single blue color like the example
+            [colorPalettes.blue]);
+
+        // Sector Pie Chart (for employment history section)
+        createPieChart('sectorPieChart', 'pie', sectorLabels, sectorValues, colorPalettes.sectors, sectorTotal);
+
+        // Job Starts by Year Line Chart (NEW)
+        const jobStartYears = Object.keys(data.employmentHistoryAnalytics.jobStartsByYear).sort();
+        const jobStartYearValues = jobStartYears.map(y => data.employmentHistoryAnalytics.jobStartsByYear[y]);
+        createLineChart('jobStartsByYearChart', jobStartYears, jobStartYearValues, colorPalettes.purple, 'Job Starts', true);
+
+        // Job Starts by Month 2026 Bar Chart (NEW)
+        const jobStartMonths = Object.keys(data.employmentHistoryAnalytics.jobStartsByMonth2026);
+        const jobStartMonthValues = jobStartMonths.map(m => data.employmentHistoryAnalytics.jobStartsByMonth2026[m]);
+        createBarChart('jobStartsByMonth2026Chart', jobStartMonths, jobStartMonthValues, colorPalettes.bars, jobStartMonthValues.reduce((a, b) => a + b, 0));
 
         // Location Bar Chart
         const locations = Object.keys(data.locations).filter(l => data.locations[l] > 0);
@@ -634,7 +789,7 @@
         const locationTotal = locationValues.reduce((a, b) => a + b, 0);
         createBarChart('locationBarChart', locations, locationValues, colorPalettes.bars, locationTotal);
 
-        // Location Radar Chart (like the example)
+        // Location Radar Chart
         createRadarChart('locationRadarChart', locations, locationValues);
     }
 
@@ -676,7 +831,7 @@
                             padding: 15,
                             usePointStyle: true,
                             pointStyle: 'circle',
-                            font: { size: 12 }
+                            font: { size: 11 }
                         }
                     },
                     tooltip: {
@@ -757,7 +912,7 @@
                     },
                     x: {
                         grid: { display: false },
-                        ticks: { font: { size: 11 } }
+                        ticks: { font: { size: 10 }, maxRotation: 45, minRotation: 0 }
                     }
                 }
             }
@@ -909,7 +1064,7 @@
         });
     }
 
-    // Radar Chart (like the location example) - improved spacing
+    // Radar Chart - improved spacing
     function createRadarChart(canvasId, labels, data) {
         const ctx = document.getElementById(canvasId);
         if (!ctx) return;
@@ -920,11 +1075,9 @@
 
         const total = data.reduce((a, b) => a + b, 0);
         const maxValue = Math.max(...data);
-        // Calculate a nice max value for better spacing (round up to nearest 5 or 10)
         const suggestedMax = maxValue <= 10 ? Math.ceil(maxValue / 2) * 2 + 2 : 
                              maxValue <= 50 ? Math.ceil(maxValue / 10) * 10 + 10 :
                              Math.ceil(maxValue / 25) * 25 + 25;
-        // Step size based on max value for cleaner gridlines
         const stepSize = suggestedMax <= 10 ? 2 : 
                          suggestedMax <= 50 ? 10 : 
                          suggestedMax <= 100 ? 25 : 50;
@@ -989,7 +1142,7 @@
                         pointLabels: { 
                             font: { size: 12, weight: '500' },
                             color: '#444',
-                            padding: 15
+                            padding: 20
                         },
                         ticks: { 
                             backdropColor: 'transparent',
@@ -1031,18 +1184,6 @@
             '<div class="value">' + value + '</div>' +
             '<div class="percentage">' + percentage + '% of total</div>' +
             '</div>';
-    }
-
-    function createDataRows(data) {
-        let html = '';
-        Object.entries(data).forEach(([label, [value, total]]) => {
-            const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
-            html += '<div class="data-row">' +
-                '<span class="data-label">' + label + '</span>' +
-                '<span><span class="data-value">' + value + '</span><span class="data-percentage">' + percentage + '%</span></span>' +
-                '</div>';
-        });
-        return html;
     }
 
     // Load analytics on page load
