@@ -232,6 +232,60 @@ exports.getAnalytics = async (req, res) => {
     const licensesRelatedToDegree = allLicenses.filter(l => l.relatedToDegree === true).length;
     const licensesNotRelatedToDegree = allLicenses.length - licensesRelatedToDegree;
 
+    // Course-specific analytics
+    const allCourses = profiles.flatMap(p => p.courses);
+
+    // Top 5 course providers
+    const providerMap = {};
+    allCourses.forEach(c => {
+      const provider = c.provider;
+      providerMap[provider] = (providerMap[provider] || 0) + 1;
+    });
+
+    const top5Providers = Object.entries(providerMap)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([provider, count]) => ({ provider, count }));
+
+    // Courses completed by year (2015-2025)
+    const coursesByYear = {};
+    for (let year = 2015; year <= 2025; year++) {
+      coursesByYear[year] = allCourses.filter(c => {
+        if (!c.completionDate) return false;
+        const completionYear = new Date(c.completionDate).getFullYear();
+        return completionYear === year;
+      }).length;
+    }
+
+    // Courses completed by month in 2026
+    const coursesByMonth2026 = {
+      January: 0,
+      February: 0,
+      March: 0,
+      April: 0,
+      May: 0,
+      June: 0,
+      July: 0,
+      August: 0,
+      September: 0,
+      October: 0,
+      November: 0,
+      December: 0,
+    };
+
+    allCourses.forEach(c => {
+      if (!c.completionDate) return;
+      const completionDate = new Date(c.completionDate);
+      if (completionDate.getFullYear() === 2026) {
+        const monthIndex = completionDate.getMonth();
+        coursesByMonth2026[months[monthIndex]]++;
+      }
+    });
+
+    // Courses related to degree
+    const coursesRelatedToDegree = allCourses.filter(c => c.relatedToDegree === true).length;
+    const coursesNotRelatedToDegree = allCourses.length - coursesRelatedToDegree;
+
     const analytics = {
       totalProfiles: profiles.length,
       employment: {
@@ -278,6 +332,14 @@ exports.getAnalytics = async (req, res) => {
         relatedToDegree: licensesRelatedToDegree,
         notRelatedToDegree: licensesNotRelatedToDegree,
         totalLicenses: allLicenses.length,
+      },
+      courseAnalytics: {
+        top5Providers,
+        coursesByYear,
+        coursesByMonth2026,
+        relatedToDegree: coursesRelatedToDegree,
+        notRelatedToDegree: coursesNotRelatedToDegree,
+        totalCourses: allCourses.length,
       },
     };
 
