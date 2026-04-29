@@ -169,6 +169,69 @@ exports.getAnalytics = async (req, res) => {
     const relatedToDegree = allCertifications.filter(c => c.relatedToDegree === true).length;
     const notRelatedToDegree = allCertifications.length - relatedToDegree;
 
+    // License-specific analytics
+    const allLicenses = profiles.flatMap(p => p.licenses);
+
+    // Top 5 issuing bodies for licenses
+    const issuingBodyMap = {};
+    allLicenses.forEach(l => {
+      const body = l.issuingBody;
+      issuingBodyMap[body] = (issuingBodyMap[body] || 0) + 1;
+    });
+
+    const top5IssuingBodies = Object.entries(issuingBodyMap)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([body, count]) => ({ issuingBody: body, count }));
+
+    // Licenses issued by year (2015-2025)
+    const licensesByYear = {};
+    for (let year = 2015; year <= 2025; year++) {
+      licensesByYear[year] = allLicenses.filter(l => {
+        const issueYear = new Date(l.issueDate).getFullYear();
+        return issueYear === year;
+      }).length;
+    }
+
+    // Licenses issued by month in 2026
+    const licensesByMonth2026 = {
+      January: 0,
+      February: 0,
+      March: 0,
+      April: 0,
+      May: 0,
+      June: 0,
+      July: 0,
+      August: 0,
+      September: 0,
+      October: 0,
+      November: 0,
+      December: 0,
+    };
+
+    allLicenses.forEach(l => {
+      const issueDate = new Date(l.issueDate);
+      if (issueDate.getFullYear() === 2026) {
+        const monthIndex = issueDate.getMonth();
+        licensesByMonth2026[months[monthIndex]]++;
+      }
+    });
+
+    // License type breakdown - using licenseName as type indicator
+    const licenseTypeMap = {};
+    allLicenses.forEach(l => {
+      const type = l.licenseName;
+      licenseTypeMap[type] = (licenseTypeMap[type] || 0) + 1;
+    });
+
+    const licenseTypeBreakdown = Object.entries(licenseTypeMap)
+      .sort((a, b) => b[1] - a[1])
+      .map(([type, count]) => ({ licenseType: type, count }));
+
+    // Licenses related to degree
+    const licensesRelatedToDegree = allLicenses.filter(l => l.relatedToDegree === true).length;
+    const licensesNotRelatedToDegree = allLicenses.length - licensesRelatedToDegree;
+
     const analytics = {
       totalProfiles: profiles.length,
       employment: {
@@ -206,6 +269,15 @@ exports.getAnalytics = async (req, res) => {
         relatedToDegree,
         notRelatedToDegree,
         totalCertifications: allCertifications.length,
+      },
+      licenseAnalytics: {
+        top5IssuingBodies,
+        licensesByYear,
+        licensesByMonth2026,
+        licenseTypeBreakdown,
+        relatedToDegree: licensesRelatedToDegree,
+        notRelatedToDegree: licensesNotRelatedToDegree,
+        totalLicenses: allLicenses.length,
       },
     };
 
